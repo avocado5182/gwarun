@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6303166750072585640}
   - component: {fileID: 7119623360669506893}
   - component: {fileID: 8491668023942769085}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: beam
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -109,20 +109,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gradient:
     serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0.64142984, b: 0, a: 1}
-    key2: {r: 1, g: 0.65, b: 0, a: 0}
-    key3: {r: 1, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
+    key0: {r: 0.46666658, g: 1, b: 0, a: 1}
+    key1: {r: 0, g: 1, b: 0.43820214, a: 1}
+    key2: {r: 0.028719723, g: 0.08816695, b: 0.954075, a: 0}
+    key3: {r: 0.5333333, g: 0, b: 1, a: 0}
+    key4: {r: 0.46666667, g: 1, b: 0, a: 0}
+    key5: {r: 0.46666667, g: 1, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
     ctime1: 16384
-    ctime2: 49151
-    ctime3: 65535
-    ctime4: 0
-    ctime5: 0
+    ctime2: 29491
+    ctime3: 42598
+    ctime4: 58982
+    ctime5: 58982
     ctime6: 0
     ctime7: 0
     atime0: 0
@@ -134,6 +134,6 @@ MonoBehaviour:
     atime6: 0
     atime7: 0
     m_Mode: 0
-    m_NumColorKeys: 4
+    m_NumColorKeys: 5
     m_NumAlphaKeys: 2
-  speed: 100
+  speed: 10
