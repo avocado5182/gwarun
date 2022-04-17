@@ -1,0 +1,51 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+public class PlayerCollision : MonoBehaviour {
+    public PlayerMovement playerMovement;
+
+    void OnTriggerEnter(Collider other) {
+        if (other.CompareTag("Untagged") || other.CompareTag("Section")) return;
+        if (other.CompareTag("Coin")) {
+            Destroy(other.gameObject);
+            GameManager.Instance.coins++;
+            
+            TMP_Text coinsText = GameManager.Instance.uiManager.coinText;
+            GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "coins", GameManager.Instance.coins);
+        }
+        if (other.CompareTag("GoldCoin")) {
+            Destroy(other.gameObject);
+            GameManager.Instance.coins += 50;
+            
+            TMP_Text coinsText = GameManager.Instance.uiManager.coinText;
+            GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "coins", GameManager.Instance.coins);
+        }
+        else if (other.CompareTag("Score")) {
+            // add one to the score
+            GameManager.Instance.score += GameManager.Instance.scoreAmt;
+            
+            TMP_Text scoreText = GameManager.Instance.uiManager.scoreText;
+            GameManager.Instance.uiManager.UpdateCurrencyText(scoreText, "score", GameManager.Instance.score);
+
+            GameManager.Instance.SpawnRandomObstacle();
+            GameManager.Instance.passedObsts++;
+        }
+        else if (other.CompareTag("SpawnPlane")) {
+            // spawn new section/base
+            GameManager.Instance.SpawnRandomSection();
+        }
+        else if (other.CompareTag("Obstacle")) {
+            playerMovement.movementIsEnabled = false;
+
+            if (GameManager.Instance.gameEnded) return;
+            
+            // show retry screen
+            GameManager.Instance.EndGame();
+
+            GameManager.Instance.gameEnded = true;
+        }
+    }
+}
