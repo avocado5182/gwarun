@@ -13,11 +13,13 @@ public class PlayerMovement : MonoBehaviour {
     public float initForwardSpeed = 800f;
     public float accelerationSpeed = 2f;
     public float mouseSensitivity = 5f;
+
     // public float xSpeed = 2f;
     [Header("")]
     public float minXValue = -2;
     public float maxXValue = 2;
 
+    bool inpDown;
     float mx;
     
     // Start is called before the first frame update
@@ -26,19 +28,30 @@ public class PlayerMovement : MonoBehaviour {
         
         transform.position = new Vector3(0f, 0.5f, 0.5f);
     }
-
+    
     // Update is called once per frame
     void Update() {
         if (movementIsEnabled) {
-            if (forwardSpeed <= 5000) {
-                forwardSpeed += (accelerationSpeed * Time.deltaTime) / 1.67f;
-            }
-            
-            TouchPhase touchPhase = (Input.touchCount > 0) ? Input.GetTouch(0).phase : TouchPhase.Stationary;
+            if (forwardSpeed <= 5000) forwardSpeed += (accelerationSpeed * Time.deltaTime) / 1.67f;
 
-            bool touchDown = touchPhase == TouchPhase.Moved || Input.GetMouseButton(0);
-            bool touchUp = touchPhase == TouchPhase.Ended || Input.GetMouseButtonUp(0);
-            mx = (touchDown && !touchUp) ? Input.GetAxisRaw("Mouse X") : 0f;
+            if (Input.touchCount > 0) {
+                if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(0).phase == TouchPhase.Stationary) mx = Input.GetTouch(0).deltaPosition.x;
+                if (Input.GetTouch(0).phase == TouchPhase.Ended) mx = 0;
+            }
+            else {
+                if (Input.GetMouseButton(0)) mx = Input.GetAxis("Mouse X");
+                if (Input.GetMouseButtonUp(0)) mx = 0;
+            }
+
+
+
+            // bool touching = Input.touchCount > 0;
+            // Touch touch = (touching ? Input.GetTouch(0) : new Touch());
+            // inpDown = (touching ? touch.phase == TouchPhase.Moved : Input.GetMouseButton(0));
+            // bool inpUp = (touching ? touch.phase == TouchPhase.Ended : Input.GetMouseButtonUp(0));
+            //
+            // if (inpDown) mx = (touching) ? touch.deltaPosition.x : Input.GetAxisRaw("Mouse X");
+            // if (inpUp) mx = 0;
         }
     }
 
@@ -47,7 +60,7 @@ public class PlayerMovement : MonoBehaviour {
             Vector3 position = playerGFX.position;
 
             Vector3 movePosition = new Vector3(
-                Mathf.Clamp(position.x + (mx * mouseSensitivity), minXValue, maxXValue),
+                Mathf.Clamp(position.x + (mx * mouseSensitivity / (Input.touchCount > 0 ? 10f : 1f)), minXValue, maxXValue),
                 position.y,
                 position.z
             );
