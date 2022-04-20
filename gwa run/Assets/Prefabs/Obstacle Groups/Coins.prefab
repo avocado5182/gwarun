@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -4363858635798601254}
   m_Layer: 0
   m_Name: Coins
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,6 +69,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 172447066645782234}
     m_Modifications:
+    - target: {fileID: -7333061358213135053, guid: a04d4b621b0bf184d88797aef12af85d, type: 3}
+      propertyPath: parentGrp
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 94513666648648319, guid: a04d4b621b0bf184d88797aef12af85d, type: 3}
       propertyPath: m_Name
       value: coin
@@ -131,6 +135,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 172447066645782234}
     m_Modifications:
+    - target: {fileID: -7333061358213135053, guid: a04d4b621b0bf184d88797aef12af85d, type: 3}
+      propertyPath: parentGrp
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 94513666648648319, guid: a04d4b621b0bf184d88797aef12af85d, type: 3}
       propertyPath: m_Name
       value: coin
@@ -193,6 +201,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 172447066645782234}
     m_Modifications:
+    - target: {fileID: -7333061358213135053, guid: a04d4b621b0bf184d88797aef12af85d, type: 3}
+      propertyPath: parentGrp
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 94513666648648319, guid: a04d4b621b0bf184d88797aef12af85d, type: 3}
       propertyPath: m_Name
       value: coin
@@ -317,6 +329,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 172447066645782234}
     m_Modifications:
+    - target: {fileID: -7333061358213135053, guid: a04d4b621b0bf184d88797aef12af85d, type: 3}
+      propertyPath: parentGrp
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 94513666648648319, guid: a04d4b621b0bf184d88797aef12af85d, type: 3}
       propertyPath: m_Name
       value: coin
