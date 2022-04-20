@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour {
     void Start() {
         if (forwardSpeed != initForwardSpeed) forwardSpeed = initForwardSpeed;
         
-        transform.position = new Vector3(0f, 0.5f, 0.5f);
+        transform.position = new Vector3(0f, 0.4f, 0.5f);
     }
     
     // Update is called once per frame
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour {
             Vector3 position = playerGFX.position;
 
             Vector3 movePosition = new Vector3(
-                Mathf.Clamp(position.x + (mx * mouseSensitivity / (Input.touchCount > 0 ? 10f : 1f)), minXValue, maxXValue),
+                Mathf.Clamp(position.x + (mx * mouseSensitivity / (Input.touchCount > 0 ? 5f : 1f)), minXValue, maxXValue),
                 position.y,
                 position.z
             );
