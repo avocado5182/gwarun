@@ -56,10 +56,6 @@ public class ShopCarousel : MonoBehaviour {
         RenderCarousel(currentIndex);
     }
 
-    void UpdateButtons(Func<Button, string> text) {
-                
-    }
-
     void ReloadCarousel(int fromIndex) {
         InitCarousel();
         RenderCarousel(fromIndex);
@@ -99,6 +95,13 @@ public class ShopCarousel : MonoBehaviour {
                         ? ((isEquipped) ? "equipped" : "equip")
                         : $"{skin.cost} coins"
                 );
+                
+                preview.UpdateButtonColor(
+                    isUnlocked
+                        ? ((isEquipped) ? Color.green : Color.blue)
+                        : Color.red
+                );
+                
                 // add onclick event
                 int skinId = i;
                 preview.purchaseSkinBtn.onClick.AddListener(() => {
@@ -120,11 +123,12 @@ public class ShopCarousel : MonoBehaviour {
                         // update button to say equipped, update other unlocked ones to say equip
                         int fromIndex = skinId;
                         ReloadCarousel(fromIndex);
-                        
+                        uiMgr.UpdateShopCoinText(savedData.coins);
+
                         // Debug.Log($"equipped skin {skin.skinName}");
                         // Debug.Log($"(skinName from skinId is {skins[skinId].skinName})");
                     }
-                    else if (savedData.coins > skin.cost && !savedData.unlockedSkins.Contains(skinId)) {//haven't unlocked this yet, possible to buy
+                    else if (savedData.coins >= skin.cost && !savedData.unlockedSkins.Contains(skinId)) {//haven't unlocked this yet, possible to buy
                         // buy the skin
                         Debug.Log($"can afford skin {skin.skinName}");
                         if (savedData.BuySkin(skinId)) {
@@ -132,36 +136,29 @@ public class ShopCarousel : MonoBehaviour {
                             Debug.Log($"savedData.coins{savedData.coins}");
                             
                             // equip it
-                            gwaSkin boughtSkin = skins[skinId];
-                            Debug.Log($"{ boughtSkin.skinName }, { skinId }");
-                            Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
+                            // gwaSkin boughtSkin = skins[skinId];
+                            // Debug.Log($"{ boughtSkin.skinName }, { skinId }");
+                            // Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
                             savedData.unlockedSkins = savedData.unlockedSkins.Append(skinId).ToArray();
-                            Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
+                            // Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
                             savedData.equippedSkin = skinId;
                             
+                            GameManager.Instance.data = savedData;
+                            SaveSystem.SaveData(GameManager.Instance.data, GameManager.Instance.savePath);
+                            
                             ReloadCarousel(skinId);
-                            //
-                            // // replace the button with a new button, text saying "equipped"
-                            // GameObject newBtnObj = Instantiate(
-                            //     preview.purchaseSkinBtn.gameObject, 
-                            //     transform.position, 
-                            //     Quaternion.identity
-                            // );
-                            // newBtnObj.transform.SetParent(preview.transform, false);
-                            // // Button newBtn = newBtnObj.GetComponent<Button>();
-                            // Debug.Log(newBtnObj);
-                            // Debug.Log(newBtnObj.GetComponent<SkinPreviewPurchaseButton>().btnText.gameObject.name);
-                            // newBtnObj.GetComponent<SkinPreviewPurchaseButton>().btnText.text = "equipped";
-                            // uiMgr.shopCoinText.text = $"coins: {savedData.coins}";
-                            // Destroy(preview.purchaseSkinBtn.gameObject);
+                            
+                            preview.UpdateSkinCostText("equipped");
+                            preview.UpdateButtonColor(Color.green);
+                            
+                            uiMgr.UpdateShopCoinText(savedData.coins);
                             
                             Debug.Log($"bought skin {skin.skinName}");
 
-                            GameManager.Instance.data = savedData;
-                            SaveSystem.SaveData(GameManager.Instance.data, GameManager.Instance.savePath); // keep this at the end
-
-                            PlayerData loaded = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath);
-                            Debug.Log($"[{ string.Join(", ", loaded.unlockedSkins) }]");
+                            // // these lines are only for debugging loading
+                            // PlayerData loaded = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath);
+                            // Debug.Log($"[{ string.Join(", ", loaded.unlockedSkins) }]");
+                            Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
                         }
                     }
                 });

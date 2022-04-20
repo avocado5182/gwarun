@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour {
     public List<CanvasGroup> mainMenuMenus = new List<CanvasGroup>();
     public Animator gwaAnimator;
 
-    
     [Header("In-Game objects")]
     public CanvasGroup pauseMenu;
     public CanvasGroup retryMenu;
@@ -45,8 +44,17 @@ public class UIManager : MonoBehaviour {
         if (GameManager.Instance.data.coins != 0 && GameManager.Instance.data.coins !=
             SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath).coins) {
             SaveSystem.SaveData(GameManager.Instance.data, GameManager.Instance.savePath);
-        } 
-        Debug.Log($"{GameManager.Instance.data.coins} in gm, {SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath).coins} saved");
+        }
+
+        int savedCoins = 0;
+        try {
+            savedCoins = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath).coins;
+        }
+        catch (Exception e) {
+            savedCoins = 0;
+        }
+        Debug.Log($"{GameManager.Instance.data.coins} in gm, {savedCoins} saved");
+
         Debug.Log($"{GameManager.Instance.data.unlockedSkins.Length} unlocked skins");
         SceneManager.LoadScene(sceneIndex);
         Time.timeScale = 1f;
@@ -114,21 +122,25 @@ public class UIManager : MonoBehaviour {
     }
 
     public void OpengwaMenu() {
-        ShowMenuMenu(1);
+        ShowMenuMenu(2);
         
         // trigger the trigger
         gwaAnimator.SetTrigger("fadeingwa");
     }
 
     public void OpenShop() {
-        ShowMenuMenu(2);
+        ShowMenuMenu(1);
         int coinAmt = 0;
         if (SaveSystem.SaveExists(GameManager.Instance.savePath)) {
             PlayerData savedData = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath);
             coinAmt = savedData.coins;
         }
 
-        shopCoinText.text = $"coins: {coinAmt}";
+        UpdateShopCoinText(coinAmt);
+    }
+
+    public void UpdateShopCoinText(int amount) {
+        shopCoinText.text = $"coins: {amount}";
     }
 
     public void UpdateMenu(CanvasGroup menu, bool show=true) {

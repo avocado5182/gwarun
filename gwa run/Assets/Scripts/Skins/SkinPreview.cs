@@ -46,4 +46,8 @@ public class SkinPreview : MonoBehaviour {
     public void UpdateSkinCostText(string text) {
         skinCostText.text = text;
     }
+
+    public void UpdateButtonColor(Color color) {
+        purchaseSkinBtn.image.color = color;
+    }
 }
