@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BallMover : MonoBehaviour {
@@ -9,8 +10,8 @@ public class BallMover : MonoBehaviour {
     float t;
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        if (balls.Any(ball => ball == null)) Destroy(gameObject);
         for (int i = 0; i < balls.Count; i++) {
             GameObject ball = balls[i];
             Vector3 pos = ball.transform.position;
