@@ -1142,7 +1142,7 @@ MonoBehaviour:
     unlockedSkins: 00000000
     equippedSkin: 0
   savePath: gwarun
-  resetSave: 1
+  resetSave: 0
   score: 0
   scoreAmt: 100
   coins: 0
