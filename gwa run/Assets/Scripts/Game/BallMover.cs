@@ -11,18 +11,19 @@ public class BallMover : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (balls.Any(ball => ball == null)) Destroy(gameObject);
-        for (int i = 0; i < balls.Count; i++) {
-            GameObject ball = balls[i];
-            Vector3 pos = ball.transform.position;
-            ball.transform.position = new Vector3(
-                pos.x,
-                2 * Mathf.Cos((20 * t) / (Mathf.PI)) / (Mathf.Pow(2, i)) + 2.25f,
-                pos.z
-            );
-        }
+        if (balls.All(ball => ball != null)) {
+            for (int i = 0; i < balls.Count; i++) {
+                GameObject ball = balls[i];
+                Vector3 pos = ball.transform.position;
+                ball.transform.position = new Vector3(
+                    pos.x,
+                    2 * Mathf.Cos((20 * t) / (Mathf.PI)) / (Mathf.Pow(2, i)) + 2.25f,
+                    pos.z
+                );
+            }
 
-        t += Time.deltaTime / speed;
-        t %= 1;
+            t += Time.deltaTime / speed;
+            t %= 1;
+        }
     }
 }
