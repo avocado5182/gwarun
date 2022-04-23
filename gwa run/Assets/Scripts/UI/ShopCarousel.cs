@@ -84,8 +84,10 @@ public class ShopCarousel : MonoBehaviour {
             // update skin preview fields(?)(i.e. name text, preview texture, etc)
             SkinPreview preview = skinPreview.GetComponent<SkinPreview>();
             preview.UpdateNameText($"{skin.skinName}");
-            if (SaveSystem.SaveExists(GameManager.Instance.savePath)) {
-                PlayerData savedData = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath);
+            if (SaveSystem.SaveExists(GameManager.savePath)) {
+                // PlayerData savedData = SaveSystem.LoadData<PlayerData>(GameManager.savePath);
+                GameManager.Instance.LoadData(GameManager.savePath);
+                var savedData = GameManager.Instance.data;
                 bool isUnlocked = Array.Exists(savedData.unlockedSkins, unlockedSkin => unlockedSkin == i);
                 bool isEquipped = isUnlocked && savedData.equippedSkin == i;
 
@@ -111,14 +113,16 @@ public class ShopCarousel : MonoBehaviour {
                     //     replace the button with a new button, text saying "equipped"
                     // // else:
                     // //     have a tooltip or something saying "you can't afford that!"
-                    savedData = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath); // maybe?
+                    // savedData = SaveSystem.LoadData<PlayerData>(GameManager.savePath); // maybe?
+                    GameManager.Instance.LoadData(GameManager.savePath);
+                    var savedData = GameManager.Instance.data;
                     if (savedData.equippedSkin == skinId) return; // already equipped, no need for listener
                     if (savedData.unlockedSkins.Contains(skinId)) { // unlocked, shows "equip", equip this
                         // skin is unlocked, make it equip
                         savedData.equippedSkin = skinId;
                         
                         GameManager.Instance.data = savedData;
-                        SaveSystem.SaveData(GameManager.Instance.data, GameManager.Instance.savePath);
+                        SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
                         
                         // update button to say equipped, update other unlocked ones to say equip
                         int fromIndex = skinId;
@@ -144,7 +148,7 @@ public class ShopCarousel : MonoBehaviour {
                             savedData.equippedSkin = skinId;
                             
                             GameManager.Instance.data = savedData;
-                            SaveSystem.SaveData(GameManager.Instance.data, GameManager.Instance.savePath);
+                            SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
                             
                             ReloadCarousel(skinId);
                             
@@ -156,7 +160,7 @@ public class ShopCarousel : MonoBehaviour {
                             Debug.Log($"bought skin {skin.skinName}");
 
                             // // these lines are only for debugging loading
-                            // PlayerData loaded = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath);
+                            // PlayerData loaded = SaveSystem.LoadData<PlayerData>(GameManager.savePath);
                             // Debug.Log($"[{ string.Join(", ", loaded.unlockedSkins) }]");
                             Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
                         }

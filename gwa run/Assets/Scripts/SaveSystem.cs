@@ -139,7 +139,7 @@ public class SaveSystem : MonoBehaviour {
 
     static string saveFileExtension = ".save";
 
-    public static void SaveData<T>(T data, string saveToPath) {
+    public static void SaveData<T>(T data, string saveToPath, bool useEncryption = true) {
         Directory.CreateDirectory(savePath);
         Directory.CreateDirectory(savePathBackUP);
         backUpCount++;
@@ -152,8 +152,9 @@ public class SaveSystem : MonoBehaviour {
                 var formatter = new BinaryFormatter();
                 var memoryStream = new MemoryStream();
                 formatter.Serialize(memoryStream, data);
-                // var dataToWrite = Convert.ToBase64String(memoryStream.ToArray());
-                var dataToWrite = SimpleAES.EncryptString(Convert.ToBase64String(memoryStream.ToArray()), encryptKey);
+                var dataToWrite = useEncryption 
+                    ? SimpleAES.EncryptString(Convert.ToBase64String(memoryStream.ToArray()), encryptKey) 
+                    : Convert.ToBase64String(memoryStream.ToArray());
                 writer.WriteLine(dataToWrite);
             }
         }
@@ -161,7 +162,7 @@ public class SaveSystem : MonoBehaviour {
         Debug.Log($"data saved! {DateTime.Now.ToLongTimeString()}");
     }
 
-    public static T LoadData<T>(string name) {
+    public static T LoadData<T>(string name, bool useEncryption = true) {
         Directory.CreateDirectory(savePath);
         Directory.CreateDirectory(savePathBackUP);
         T returnValue;
@@ -176,8 +177,9 @@ public class SaveSystem : MonoBehaviour {
             using (var reader = new StreamReader(path + name + saveFileExtension)) {
                 var formatter = new BinaryFormatter();
                 var dataToRead = reader.ReadToEnd();
-                var memoryStream = new MemoryStream(Convert.FromBase64String(SimpleAES.DecryptString(dataToRead, encryptKey)));
-                // var memoryStream = new MemoryStream(Convert.FromBase64String(dataToRead));
+                var memoryStream = useEncryption
+                    ? new MemoryStream(Convert.FromBase64String(SimpleAES.DecryptString(dataToRead, encryptKey)))
+                    : new MemoryStream(Convert.FromBase64String(dataToRead));
                 try {
                     returnValue = (T) formatter.Deserialize(memoryStream);
                 }

@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector]
     public PlayerData data;
     [HideInInspector]
-    public string savePath = "gwarun";
+    public static string savePath = "gwarun";
 
     float timeToSave;
     [SerializeField] bool resetSave; 
@@ -82,14 +82,34 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void LoadData(string path) {
+        try {
+            Debug.Log("try1");
+            data = SaveSystem.LoadData<PlayerData>(savePath);
+        }
+        catch (Exception e) {
+            Debug.Log("catch1");
+            try {
+                Debug.Log("try2");
+                data = SaveSystem.LoadData<PlayerData>(savePath, false);
+            }
+            catch (Exception e1) {
+                Debug.Log("catch2");
+                data = new PlayerData(); 
+                SaveSystem.SaveData(data, savePath);
+            }
+        }
+    }
     
     void Start() {
-        data = (SaveSystem.SaveExists(savePath) && !resetSave) ?
-            SaveSystem.LoadData<PlayerData>(savePath) : new PlayerData();
-        // if (data != new PlayerData()) {
-            Debug.Log($"[{ string.Join(", ", data.unlockedSkins) }]");
-            Debug.Log($"equipped: {data.equippedSkin} ({gwaSkins.List.Find(s => s.id == data.equippedSkin).skinName})");
-        // }
+        // var data = new PlayerData();
+        if (SaveSystem.SaveExists(savePath) && !resetSave) { // bruh
+            LoadData(savePath);
+        }
+        // // if (data != new PlayerData()) {
+        //     Debug.Log($"[{ string.Join(", ", data.unlockedSkins) }]");
+        //     Debug.Log($"equipped: {data.equippedSkin} ({gwaSkins.List.Find(s => s.id == data.equippedSkin).skinName})");
+        // // }
 
         if (!isOnMainMenu) {
             gwaSkin equippedSkin = gwaSkins.List.Find(s => s.id == data.equippedSkin);
@@ -187,7 +207,8 @@ public class GameManager : MonoBehaviour {
     }
 
     void OnApplicationQuit() {
-        PlayerData loadedData = SaveSystem.LoadData<PlayerData>(savePath);
+        LoadData(savePath);
+        PlayerData loadedData = data;
         if (data.coins == 0 && loadedData.coins < data.coins) {
             data.coins = loadedData.coins;
         }

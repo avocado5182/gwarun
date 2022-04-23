@@ -41,18 +41,20 @@ public class UIManager : MonoBehaviour {
     }
     
     public void LoadScene(int sceneIndex) {
+        GameManager.Instance.LoadData(GameManager.savePath);
+        var loadedData = GameManager.Instance.data;
         if (GameManager.Instance.data.coins != 0 && GameManager.Instance.data.coins !=
-            SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath).coins) {
-            SaveSystem.SaveData(GameManager.Instance.data, GameManager.Instance.savePath);
+            loadedData.coins) {
+            SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
         }
 
         int savedCoins = 0;
-        try {
-            savedCoins = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath).coins;
-        }
-        catch (Exception e) {
-            savedCoins = 0;
-        }
+        // try {
+        //     savedCoins = SaveSystem.LoadData<PlayerData>(GameManager.savePath).coins;
+        // }
+        // catch (Exception e) {
+        //     savedCoins = 0;
+        // }
         Debug.Log($"{GameManager.Instance.data.coins} in gm, {savedCoins} saved");
 
         Debug.Log($"{GameManager.Instance.data.unlockedSkins.Length} unlocked skins");
@@ -77,9 +79,10 @@ public class UIManager : MonoBehaviour {
     }
     public void UpdateRetryScreen(bool show) {
         // save the high score
-        if (SaveSystem.SaveExists(GameManager.Instance.savePath)) {
+        if (SaveSystem.SaveExists(GameManager.savePath)) {
             Debug.Log("save exists");
-            PlayerData savedData = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath);
+            GameManager.Instance.LoadData(GameManager.savePath);
+            var savedData = GameManager.Instance.data;
             GameManager.Instance.data.unlockedSkins = savedData.unlockedSkins;
             GameManager.Instance.data.equippedSkin = savedData.equippedSkin;
             // Debug.Log(gameMgr.data.highScore);
@@ -108,7 +111,7 @@ public class UIManager : MonoBehaviour {
         // UpdateCurrencyText(coinAmtText, "coins", gameMgr.data.coins);
         coinAmtText.text = $"{(GameManager.Instance.coins > 0 ? $"coins collected: {GameManager.Instance.coins}\n" : "")} total coins: {GameManager.Instance.data.coins}";
         
-        SaveSystem.SaveData(GameManager.Instance.data, GameManager.Instance.savePath);
+        SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
         // Debug.Log(SaveSystem.LoadData<PlayerData>(gameMgr.savePath).highScore);
         // Debug.Log(gameMgr.data.highScore);
         
@@ -131,8 +134,10 @@ public class UIManager : MonoBehaviour {
     public void OpenShop() {
         ShowMenuMenu(1);
         int coinAmt = 0;
-        if (SaveSystem.SaveExists(GameManager.Instance.savePath)) {
-            PlayerData savedData = SaveSystem.LoadData<PlayerData>(GameManager.Instance.savePath);
+        if (SaveSystem.SaveExists(GameManager.savePath)) {
+            // PlayerData savedData = SaveSystem.LoadData<PlayerData>(GameManager.savePath);
+            GameManager.Instance.LoadData(GameManager.savePath);
+            var savedData = GameManager.Instance.data;
             coinAmt = savedData.coins;
         }
 
