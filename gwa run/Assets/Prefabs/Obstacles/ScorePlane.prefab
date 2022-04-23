@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3927650305034077143}
   - component: {fileID: -7687327382938828187}
   - component: {fileID: 7511085898588197299}
+  - component: {fileID: -4475954907462449344}
   m_Layer: 0
   m_Name: ScorePlane
   m_TagString: Score
@@ -29,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1013921744272189153}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 2, y: 2, z: 0.5}
-  m_LocalScale: {x: 10, y: 0.5, z: 10}
+  m_LocalScale: {x: 15, y: 0.7, z: 15}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -108,4 +109,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84e961609ca74d34f8c95614746354b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentGrp: {fileID: 0}
+--- !u!114 &-4475954907462449344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013921744272189153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18b462e02299ba34e9371c4a72decb1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

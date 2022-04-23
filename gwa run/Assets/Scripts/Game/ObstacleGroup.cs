@@ -7,7 +7,8 @@ public class ObstacleGroup : MonoBehaviour {
 
     public void OnTransformChildrenChanged() {
         if (transform.childCount == 1) {
-            if (transform.GetChild(0).CompareTag("Score")) Destroy(gameObject);
+            ScorePlane sp = transform.GetChild(0).GetComponent<ScorePlane>();
+            if (sp.CompareTag("Score") && sp.scored) Destroy(gameObject);
         }
     }
 }

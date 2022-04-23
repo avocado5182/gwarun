@@ -32,6 +32,10 @@ public class PlayerCollision : MonoBehaviour {
 
             GameManager.Instance.SpawnRandomObstacle();
             GameManager.Instance.passedObsts++;
+
+            ScorePlane sp = other.GetComponent<ScorePlane>(); 
+            sp.scored = true;
+            if (sp.NoSiblings()) Destroy(other.transform.parent.gameObject);
         }
         else if (other.CompareTag("SpawnPlane")) {
             // spawn new section/base
