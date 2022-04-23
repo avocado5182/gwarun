@@ -83,18 +83,14 @@ public class GameManager : MonoBehaviour {
     }
 
     public void LoadData(string path) {
-        try {
-            Debug.Log("try1");
+        try { // bruh
             data = SaveSystem.LoadData<PlayerData>(savePath);
         }
         catch (Exception e) {
-            Debug.Log("catch1");
             try {
-                Debug.Log("try2");
                 data = SaveSystem.LoadData<PlayerData>(savePath, false);
             }
             catch (Exception e1) {
-                Debug.Log("catch2");
                 data = new PlayerData(); 
                 SaveSystem.SaveData(data, savePath);
             }
@@ -103,7 +99,7 @@ public class GameManager : MonoBehaviour {
     
     void Start() {
         // var data = new PlayerData();
-        if (SaveSystem.SaveExists(savePath) && !resetSave) { // bruh
+        if (SaveSystem.SaveExists(savePath) && !resetSave) {
             LoadData(savePath);
         }
         // // if (data != new PlayerData()) {
