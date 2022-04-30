@@ -15,11 +15,11 @@ public class MovingObject : MonoBehaviour {
         // distToNewObstacle = GameManager.Instance.distanceToNewObstacle;
     }
     
-    public void OnTransformChildrenChanged() {
-        if (transform.childCount == 1) {
-            if (transform.GetChild(0).CompareTag("SpawnPlane")) Destroy(gameObject);
-        }
-    }
+    // public void OnTransformChildrenChanged() {
+    //     if (transform.childCount == 1) {
+    //         if (transform.GetChild(0).CompareTag("SpawnPlane")) Destroy(gameObject);
+    //     }
+    // }
 
     void FixedUpdate() {
         if (!playerMvmt || !playerMvmt.movementIsEnabled) return;

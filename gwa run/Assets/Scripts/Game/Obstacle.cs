@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
-    void OnBecameInvisible() {
-        Destroy(gameObject);
-    }
+    // void OnBecameInvisible() {
+    //     Destroy(gameObject);
+    // }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour {
@@ -21,17 +22,17 @@ public class ObjectPool : MonoBehaviour {
         
         poolDict = new Dictionary<string, Queue<GameObject>>();
 
-        // foreach (Pool pool in pools) {
-        //     Queue<GameObject> objPool = new Queue<GameObject>();
-        //
-        //     for (int i = 0; i < pool.size; i++) {
-        //         GameObject obj = Instantiate(pool.prefab);
-        //         obj.SetActive(false);
-        //         objPool.Enqueue(obj);
-        //     }
-        //
-        //     poolDict.Add(pool.tag, objPool);
-        // }
+        foreach (Pool pool in pools) {
+            Queue<GameObject> objPool = new Queue<GameObject>();
+        
+            for (int i = 0; i < pool.size; i++) {
+                GameObject obj = Instantiate(pool.prefab);
+                obj.SetActive(false);
+                objPool.Enqueue(obj);
+            }
+        
+            poolDict.Add(pool.tag, objPool);
+        }
     }
 
 
@@ -43,6 +44,11 @@ public class ObjectPool : MonoBehaviour {
         GameObject objToSpawn = poolDict[poolTag].Dequeue();
 
         objToSpawn.SetActive(true);
+        if (poolTag == "coins" || poolTag == "goldcoins") {
+            objToSpawn.GetComponentsInChildren<MeshRenderer>()
+                .Where(mr => mr.name == "coin" || mr.name == "goldcoin").ToList()
+                .ForEach(mr => mr.enabled = true);
+        }
         objToSpawn.transform.position = pos;
         objToSpawn.transform.rotation = rot;
 

@@ -753,14 +753,23 @@ MonoBehaviour:
   mainMenuMenus: []
   gwaAnimator: {fileID: 0}
   pauseMenu: {fileID: 1727841685}
+  inGameMenu: {fileID: 101891970}
   retryMenu: {fileID: 1671332006}
   retryButton: {fileID: 1108420513}
   scoreText: {fileID: 265347255}
   highScoreText: {fileID: 683699367}
   coinText: {fileID: 1920962543}
+  gameOverText: {fileID: 591620997}
   coinAmtText: {fileID: 598513255}
   shopCoinText: {fileID: 0}
   menugwaModel: {fileID: 0}
+  gameOverMsgs:
+  - ':gwa:'
+  - bad job
+  - game over
+  - poor job
+  - :(
+  - what a noob
 --- !u!4 &462837797
 Transform:
   m_ObjectHideFlags: 0
@@ -2356,6 +2365,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1176820036}
   - component: {fileID: 1176820035}
+  - component: {fileID: 1176820037}
+  - component: {fileID: 1176820038}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -2380,11 +2391,12 @@ MonoBehaviour:
   playerObject: {fileID: 997650572}
   playerGFX: {fileID: 2131080523}
   explosionParticles: {fileID: 8215863142760893766, guid: a316f2da4a78fd84497ef03bbf5482e8, type: 3}
+  sfxMixer: {fileID: 24300002, guid: 316a5b8ed2e421147827d2d3f5b8a4d1, type: 2}
+  explosionSFX: {fileID: 8300000, guid: 1f7f16d21a2adcf44a90611205e8258d, type: 3}
   obstaclePrefabs:
   - {fileID: 2219418403885268840, guid: 794ec3119fd3117449cd947f82997e4c, type: 3}
   - {fileID: 172447066645782237, guid: 13e31f6d52bdcae4ca4393d22777caae, type: 3}
   - {fileID: 1002764854475678210, guid: 44901f89f56a92b4995b0427b4677c91, type: 3}
-  - {fileID: 1002764854475678210, guid: e64a38d6e7522e446b55809c7fd63e97, type: 3}
   - {fileID: 7711542498184123444, guid: 6296166c44430c347af9275bfe794bd5, type: 3}
   - {fileID: 1002764854475678210, guid: 21256df80d1201547b2d00f3322a0b6d, type: 3}
   - {fileID: 172447066645782237, guid: e3959e191d774074ca755dab567eb831, type: 3}
@@ -2432,6 +2444,136 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1176820037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176820034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 796469c41e21949468e06baf4602ccee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: leftspikes
+    prefab: {fileID: 2219418403885268840, guid: 794ec3119fd3117449cd947f82997e4c, type: 3}
+    size: 8
+  - tag: coins
+    prefab: {fileID: 172447066645782237, guid: 13e31f6d52bdcae4ca4393d22777caae, type: 3}
+    size: 8
+  - tag: middle spikes
+    prefab: {fileID: 1002764854475678210, guid: 44901f89f56a92b4995b0427b4677c91, type: 3}
+    size: 8
+  - tag: right spikes
+    prefab: {fileID: 7711542498184123444, guid: 6296166c44430c347af9275bfe794bd5, type: 3}
+    size: 10
+  - tag: laser
+    prefab: {fileID: 1002764854475678210, guid: 21256df80d1201547b2d00f3322a0b6d, type: 3}
+    size: 8
+  - tag: goldcoins
+    prefab: {fileID: 172447066645782237, guid: e3959e191d774074ca755dab567eb831, type: 3}
+    size: 8
+  - tag: movings
+    prefab: {fileID: 1820428508645165894, guid: 8534201c407b11342a36e17446625018, type: 3}
+    size: 8
+--- !u!82 &1176820038
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176820034}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 316a5b8ed2e421147827d2d3f5b8a4d1, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 1f7f16d21a2adcf44a90611205e8258d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1190273529
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
 
@@ -18,6 +20,9 @@ public class GameManager : MonoBehaviour {
     PlayerMovement playerMovement;
     public GameObject playerGFX;
     public ParticleSystem explosionParticles;
+    public AudioMixerGroup sfxMixer;
+    public AudioClip explosionSFX;
+    AudioSource audioSrc;
     
     
     [Header("Obstacles")]
@@ -79,6 +84,13 @@ public class GameManager : MonoBehaviour {
             lastSectionPos = new Vector3(-6.83f, 2.5f, 0f);
 
             uiManager.UpdateRetryScreen(false);
+            
+            audioSrc = GetComponent<AudioSource>();
+            if (audioSrc == null) audioSrc = gameObject.AddComponent<AudioSource>();
+            audioSrc.outputAudioMixerGroup = sfxMixer;
+            audioSrc.clip = explosionSFX;
+            audioSrc.playOnAwake = false;
+            audioSrc.loop = false;
         }
     }
 
@@ -108,6 +120,7 @@ public class GameManager : MonoBehaviour {
         // // }
 
         if (!isOnMainMenu) {
+            Debug.Log(data.equippedSkin);
             gwaSkin equippedSkin = gwaSkins.List.Find(s => s.id == data.equippedSkin);
             Debug.Log(equippedSkin.skinName);
             playerGFX.GetComponent<MeshFilter>().mesh = equippedSkin.mesh;
@@ -190,6 +203,9 @@ public class GameManager : MonoBehaviour {
         ParticleSystem particles = Instantiate(explosionParticles, playerGFX.transform);
         particles.Play();
         
+        // sound fx!
+        audioSrc.Play();
+        
         // hide player
         playerGFX.GetComponent<MeshRenderer>().enabled = false;
         playerMovement.movementIsEnabled = false;
@@ -199,6 +215,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void ShowRetryScreen() {
+        uiManager.gameOverText.text = uiManager.gameOverMsgs[getRandom.Next(0, uiManager.gameOverMsgs.Count)];
         uiManager.ShowRetryScreen();
     }
 
@@ -236,7 +253,7 @@ public class GameManager : MonoBehaviour {
         hasSpawnedObstacle = true;
         Vector3 lastObstaclePos = lastObstacle.transform.position;
         
-        if (obstaclePrefabs[obstacle].name == "Coins") {
+        if (obstaclePrefabs[obstacle].name == "Coins" || obstaclePrefabs[obstacle].name == "Gold Coins") {
             double randomDouble = getRandom.NextDouble(); // 0 - 1 noninclusive (exclusive?)
             randomDouble *= 3;
             randomDouble -= 1.5;
@@ -264,11 +281,13 @@ public class GameManager : MonoBehaviour {
     }
     
     public GameObject SpawnObstacle(int obstacle, Vector3 spawnPos) {
-        GameObject newObstacle = Instantiate(
-            obstaclePrefabs[obstacle], 
-            spawnPos, 
-            Quaternion.identity
-        );
+        // GameObject newObstacle = Instantiate(
+        //     obstaclePrefabs[obstacle], 
+        //     spawnPos, 
+        //     Quaternion.identity
+        // );
+        string name = ObjectPool.Instance.pools[obstacle].tag;
+        GameObject newObstacle = ObjectPool.Instance.SpawnFromPool(name, spawnPos, Quaternion.identity);
         
         newObstacle.transform.parent = obstaclesObject;
         hasSpawnedObstacle = true;

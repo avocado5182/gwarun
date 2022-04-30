@@ -1120,6 +1120,8 @@ MonoBehaviour:
   playerObject: {fileID: 0}
   playerGFX: {fileID: 0}
   explosionParticles: {fileID: 0}
+  sfxMixer: {fileID: 0}
+  explosionSFX: {fileID: 0}
   obstaclePrefabs: []
   obstaclesObject: {fileID: 0}
   obstacleDistance: 5
@@ -1829,6 +1831,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 68c873da40396b84194899c280fa6e9f, type: 2}
   - {fileID: 11400000, guid: e6d06936b14f6de40b9edbe7f1d3eecd, type: 2}
   - {fileID: 11400000, guid: 1e09de419086d7247b9182d7d2cff4ee, type: 2}
+  - {fileID: 11400000, guid: 9384263afdb426341b46a0ad3711e56f, type: 2}
   skinsContainer: {fileID: 1468215055}
   skinPreviewPrefab: {fileID: 5875527004472099727, guid: 8e4947203b4c09b438f30ed82cbf6986, type: 3}
   carouselContainer: {fileID: 1154514231}
@@ -2669,14 +2672,17 @@ MonoBehaviour:
   - {fileID: 1540661917}
   gwaAnimator: {fileID: 0}
   pauseMenu: {fileID: 0}
+  inGameMenu: {fileID: 0}
   retryMenu: {fileID: 0}
   retryButton: {fileID: 0}
   scoreText: {fileID: 0}
   highScoreText: {fileID: 0}
   coinText: {fileID: 0}
+  gameOverText: {fileID: 0}
   coinAmtText: {fileID: 0}
   shopCoinText: {fileID: 221747420}
   menugwaModel: {fileID: 664695001}
+  gameOverMsgs: []
 --- !u!4 &1532719025
 Transform:
   m_ObjectHideFlags: 0

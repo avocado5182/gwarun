@@ -13,14 +13,19 @@ public class UIManager : MonoBehaviour {
 
     [Header("In-Game objects")]
     public CanvasGroup pauseMenu;
+    public CanvasGroup inGameMenu;
     public CanvasGroup retryMenu;
     public Button retryButton;
     public TMP_Text scoreText;
     public TMP_Text highScoreText;
     public TMP_Text coinText; // in-game
+    public TMP_Text gameOverText;
     public TMP_Text coinAmtText;
     public TMP_Text shopCoinText; // in the shop
     public GameObject menugwaModel;
+
+    [Header("Game Over Messages")] 
+    public List<string> gameOverMsgs;
     
     public void LoadNextScene() {
         int index = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
@@ -116,6 +121,7 @@ public class UIManager : MonoBehaviour {
         // Debug.Log(gameMgr.data.highScore);
         
         UpdateMenu(retryMenu, show);
+        UpdateMenu(inGameMenu, !show);
         Time.timeScale = Convert.ToSingle(!show);
     }
 

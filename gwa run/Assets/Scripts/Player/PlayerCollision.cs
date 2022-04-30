@@ -10,18 +10,20 @@ public class PlayerCollision : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Untagged") || other.CompareTag("Section")) return;
         if (other.CompareTag("Coin")) {
-            Destroy(other.gameObject);
+            // Destroy(other.gameObject);
             GameManager.Instance.coins++;
             
             TMP_Text coinsText = GameManager.Instance.uiManager.coinText;
             GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "coins", GameManager.Instance.coins);
+            other.GetComponent<MeshRenderer>().enabled = false;
         }
         if (other.CompareTag("GoldCoin")) {
-            Destroy(other.gameObject);
+            // Destroy(other.gameObject);
             GameManager.Instance.coins += 50;
             
             TMP_Text coinsText = GameManager.Instance.uiManager.coinText;
             GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "coins", GameManager.Instance.coins);
+            other.GetComponent<MeshRenderer>().enabled = false;
         }
         else if (other.CompareTag("Score")) {
             // add one to the score
@@ -35,7 +37,7 @@ public class PlayerCollision : MonoBehaviour {
 
             ScorePlane sp = other.GetComponent<ScorePlane>(); 
             sp.scored = true;
-            if (sp.NoSiblings()) Destroy(other.transform.parent.gameObject);
+            // if (sp.NoSiblings()) Destroy(other.transform.parent.gameObject);
         }
         else if (other.CompareTag("SpawnPlane")) {
             // spawn new section/base
