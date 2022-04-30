@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skinName: gwa left
   id: 4
-  mesh: {fileID: -7558281035177599684, guid: a1b88720060c6b64ba3bb4b960eb382d, type: 3}
+  mesh: {fileID: -7558281035177599684, guid: e9030b6dea1a0a042a7123d5940c189e, type: 3}
   mats:
-  - {fileID: 4362962105363994262, guid: a1b88720060c6b64ba3bb4b960eb382d, type: 3}
-  - {fileID: 9171952328373019990, guid: a1b88720060c6b64ba3bb4b960eb382d, type: 3}
+  - {fileID: 4374767759926160521, guid: e9030b6dea1a0a042a7123d5940c189e, type: 3}
+  - {fileID: 5614927484693983967, guid: e9030b6dea1a0a042a7123d5940c189e, type: 3}
   shopPreview: {fileID: 2800000, guid: d9dddfe662ef01041844a49033bb30c6, type: 3}
   cost: 6969
