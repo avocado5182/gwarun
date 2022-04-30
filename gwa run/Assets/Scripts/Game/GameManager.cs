@@ -98,11 +98,11 @@ public class GameManager : MonoBehaviour {
         try { // bruh
             data = SaveSystem.LoadData<PlayerData>(savePath);
         }
-        catch (Exception e) {
+        catch {
             try {
                 data = SaveSystem.LoadData<PlayerData>(savePath, false);
             }
-            catch (Exception e1) {
+            catch {
                 data = new PlayerData(); 
                 SaveSystem.SaveData(data, savePath);
             }
