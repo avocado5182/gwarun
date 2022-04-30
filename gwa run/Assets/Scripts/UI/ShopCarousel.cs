@@ -68,6 +68,7 @@ public class ShopCarousel : MonoBehaviour {
                 Destroy(preview.gameObject);
             }
         }
+        
         for (int i = 0; i < skins.Count; i++) {
             gwaSkin skin = skins[i];
             // float previewXPos = (i * previewWidth) + (skinDistance * i);
@@ -88,8 +89,8 @@ public class ShopCarousel : MonoBehaviour {
                 // PlayerData savedData = SaveSystem.LoadData<PlayerData>(GameManager.savePath);
                 GameManager.Instance.LoadData(GameManager.savePath);
                 var savedData = GameManager.Instance.data;
-                bool isUnlocked = Array.Exists(savedData.unlockedSkins, unlockedSkin => unlockedSkin == i);
-                bool isEquipped = isUnlocked && savedData.equippedSkin == i;
+                bool isUnlocked = Array.Exists(savedData.unlockedSkins, unlockedSkin => unlockedSkin == skin.id);
+                bool isEquipped = isUnlocked && savedData.equippedSkin == skin.id;
 
                 // Debug.Log($"{skin.skinName}: {(isUnlocked ? (isEquipped ? "Unlocked and Equipped" : "Unlocked") : "To buy")}");
                 preview.UpdateSkinCostText(
@@ -105,7 +106,10 @@ public class ShopCarousel : MonoBehaviour {
                 );
                 
                 // add onclick event
-                int skinId = i;
+                
+                // int skinId = i;
+                int skinId = skin.id;
+                var i1 = i;
                 preview.purchaseSkinBtn.onClick.AddListener(() => {
                     // if coins > cost:
                     //     buy();
@@ -125,7 +129,7 @@ public class ShopCarousel : MonoBehaviour {
                         SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
                         
                         // update button to say equipped, update other unlocked ones to say equip
-                        int fromIndex = skinId;
+                        int fromIndex = i1;
                         ReloadCarousel(fromIndex);
                         uiMgr.UpdateShopCoinText(savedData.coins);
 
@@ -135,7 +139,7 @@ public class ShopCarousel : MonoBehaviour {
                     else if (savedData.coins >= skin.cost && !savedData.unlockedSkins.Contains(skinId)) {//haven't unlocked this yet, possible to buy
                         // buy the skin
                         Debug.Log($"can afford skin {skin.skinName}");
-                        if (savedData.BuySkin(skinId)) {
+                        if (savedData.BuySkin(i1)) {
                             savedData.coins -= skin.cost;
                             Debug.Log($"savedData.coins{savedData.coins}");
                             

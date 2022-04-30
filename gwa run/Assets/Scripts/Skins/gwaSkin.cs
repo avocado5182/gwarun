@@ -40,9 +40,9 @@ public class gwaSkin : ScriptableObject {
         }
     }
 
-    public static gwaSkin redgwa {
+    public static gwaSkin gwaLeft {
         get {
-            gwaSkin skin = Resources.Load<gwaSkin>("gwa Skins/red gwa");
+            gwaSkin skin = Resources.Load<gwaSkin>("gwa Skins/gwa left");
 
             return skin;
         }

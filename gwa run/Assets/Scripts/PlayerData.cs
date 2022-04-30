@@ -9,7 +9,7 @@ public abstract class gwaSkins {
         gwaSkin.Truegwa,
         gwaSkin.gwaBlob,
         gwaSkin.gwaTroll,
-        // gwaSkin.redgwa
+        gwaSkin.gwaLeft
     };
 }
 
