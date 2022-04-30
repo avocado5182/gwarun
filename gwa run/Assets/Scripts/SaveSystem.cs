@@ -143,7 +143,14 @@ public class SaveSystem : MonoBehaviour {
         Directory.CreateDirectory(savePath);
         Directory.CreateDirectory(savePathBackUP);
         backUpCount++;
-        Save(backUpCount % 4 == 0 ? savePathBackUP : savePath);
+        if (backUpCount % 4 == 0) {
+            Debug.Log("backup save");
+            Save(savePathBackUP);
+            Save(savePath);
+        }
+        else {
+            Save(savePath);
+        }
 
         PlayerPrefs.SetString("OfflineTime", DateTime.Now.ToBinary().ToString());
 
@@ -169,9 +176,10 @@ public class SaveSystem : MonoBehaviour {
         var backUpNeeded = false;
 
         Load(savePath);
-        if (backUpNeeded) Load(savePathBackUP);
-
-        return returnValue;
+        if (backUpNeeded) {
+            Debug.Log("backup load");
+            Load(savePathBackUP);
+        }
 
         void Load(string path) {
             using (var reader = new StreamReader(path + name + saveFileExtension)) {
@@ -189,6 +197,8 @@ public class SaveSystem : MonoBehaviour {
                 }
             }
         }
+        
+        return returnValue;
     }
 
     public static bool SaveExists(string key) {
