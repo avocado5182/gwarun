@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class MovingObject : MonoBehaviour {
     PlayerMovement playerMvmt;
+
+    public bool moving = false;
     // float distToNewSection;
     // float distToNewObstacle;
     bool spawnedYet;
@@ -22,7 +24,7 @@ public class MovingObject : MonoBehaviour {
     // }
 
     void FixedUpdate() {
-        if (!playerMvmt || !playerMvmt.movementIsEnabled) return;
+        if (!playerMvmt || !playerMvmt.movementIsEnabled || !moving) return;
         Vector3 pos = transform.position;
         
         Vector3 newPos = new Vector3(

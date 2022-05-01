@@ -28,6 +28,7 @@ public class ObjectPool : MonoBehaviour {
             for (int i = 0; i < pool.size; i++) {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
+                obj.GetComponent<MovingObject>().moving = false;
                 objPool.Enqueue(obj);
             }
         
@@ -44,6 +45,7 @@ public class ObjectPool : MonoBehaviour {
         GameObject objToSpawn = poolDict[poolTag].Dequeue();
 
         objToSpawn.SetActive(true);
+        objToSpawn.GetComponent<MovingObject>().moving = true;
         if (poolTag == "coins" || poolTag == "goldcoins") {
             objToSpawn.GetComponentsInChildren<MeshRenderer>()
                 .Where(mr => mr.name == "coin" || mr.name == "goldcoin").ToList()
