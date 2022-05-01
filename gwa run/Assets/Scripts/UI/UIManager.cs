@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour {
             SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
         }
 
-        int savedCoins = 0;
+        // int savedCoins = 0;
         // try {
         //     savedCoins = SaveSystem.LoadData<PlayerData>(GameManager.savePath).coins;
         // }
