@@ -47,4 +47,12 @@ public class gwaSkin : ScriptableObject {
             return skin;
         }
     }
+    
+    public static gwaSkin gwaToot {
+        get {
+            gwaSkin skin = Resources.Load<gwaSkin>("gwa Skins/gwa toot");
+
+            return skin;
+        }
+    }
 }

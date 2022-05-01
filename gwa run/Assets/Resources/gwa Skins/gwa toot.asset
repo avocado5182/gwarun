@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3488a61ba173b04db2ca0ad51ac7e4c, type: 3}
+  m_Name: gwa toot
+  m_EditorClassIdentifier: 
+  skinName: gwa toot
+  id: 6
+  mesh: {fileID: -7558281035177599684, guid: 666faee1c159acf4a87ce58a62bd8c8d, type: 3}
+  mats:
+  - {fileID: 2100000, guid: 13f79e934302b5f4b9b1a25511b34267, type: 2}
+  - {fileID: 4362962105363994262, guid: 666faee1c159acf4a87ce58a62bd8c8d, type: 3}
+  - {fileID: 9171952328373019990, guid: 666faee1c159acf4a87ce58a62bd8c8d, type: 3}
+  - {fileID: 2100000, guid: 627c7aab2fc17c245bc321bf63667b86, type: 2}
+  - {fileID: -173482714909070930, guid: 666faee1c159acf4a87ce58a62bd8c8d, type: 3}
+  shopPreview: {fileID: 2800000, guid: be98a131b8fea134ea333b7ffa556690, type: 3}
+  cost: 7000

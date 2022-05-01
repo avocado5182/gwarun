@@ -12,17 +12,17 @@ using UnityEngine.Serialization;
 
 public class ShopCarousel : MonoBehaviour {
     public UIManager uiMgr;
-    [FormerlySerializedAs("gwaSkins")] public List<gwaSkin> skins = new List<gwaSkin>();
     public Transform skinsContainer;
     public GameObject skinPreviewPrefab;
     public RectTransform carouselContainer;
     public float skinDistance = 480f; // x distance between skins in the shop
     public float previewWidth = 1000f;
 
+    List<gwaSkin> skins = new List<gwaSkin>();
     int currentIndex = 0;
 
     void Awake() {
-        skins = gwaSkins.List;
+        skins = GameManager.Instance.skins;
         currentIndex = 0;
     }
 
@@ -138,10 +138,10 @@ public class ShopCarousel : MonoBehaviour {
                     }
                     else if (savedData.coins >= skin.cost && !savedData.unlockedSkins.Contains(skinId)) {//haven't unlocked this yet, possible to buy
                         // buy the skin
-                        Debug.Log($"can afford skin {skin.skinName}");
-                        if (savedData.BuySkin(i1)) {
+                        // Debug.Log($"can afford skin {skin.skinName}");
+                        if (savedData.BuySkin(skinId)) {
                             savedData.coins -= skin.cost;
-                            Debug.Log($"savedData.coins{savedData.coins}");
+                            // Debug.Log($"savedData.coins{savedData.coins}");
                             
                             // equip it
                             // gwaSkin boughtSkin = skins[skinId];
@@ -154,7 +154,7 @@ public class ShopCarousel : MonoBehaviour {
                             GameManager.Instance.data = savedData;
                             SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
                             
-                            ReloadCarousel(skinId);
+                            ReloadCarousel(i1);
                             
                             preview.UpdateSkinCostText("equipped");
                             preview.UpdateButtonColor(Color.green);
@@ -166,7 +166,9 @@ public class ShopCarousel : MonoBehaviour {
                             // // these lines are only for debugging loading
                             // PlayerData loaded = SaveSystem.LoadData<PlayerData>(GameManager.savePath);
                             // Debug.Log($"[{ string.Join(", ", loaded.unlockedSkins) }]");
-                            Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
+                            
+                            
+                            // Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
                         }
                     }
                 });

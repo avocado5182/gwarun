@@ -1122,6 +1122,12 @@ MonoBehaviour:
   explosionParticles: {fileID: 0}
   sfxMixer: {fileID: 0}
   explosionSFX: {fileID: 0}
+  skins:
+  - {fileID: 11400000, guid: 68c873da40396b84194899c280fa6e9f, type: 2}
+  - {fileID: 11400000, guid: e6d06936b14f6de40b9edbe7f1d3eecd, type: 2}
+  - {fileID: 11400000, guid: 1e09de419086d7247b9182d7d2cff4ee, type: 2}
+  - {fileID: 11400000, guid: 9384263afdb426341b46a0ad3711e56f, type: 2}
+  - {fileID: 11400000, guid: 8f1acc580900ba54ab35f2ccf8d273af, type: 2}
   obstaclePrefabs: []
   obstaclesObject: {fileID: 0}
   obstacleDistance: 5
@@ -1827,11 +1833,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiMgr: {fileID: 1532719024}
-  skins:
-  - {fileID: 11400000, guid: 68c873da40396b84194899c280fa6e9f, type: 2}
-  - {fileID: 11400000, guid: e6d06936b14f6de40b9edbe7f1d3eecd, type: 2}
-  - {fileID: 11400000, guid: 1e09de419086d7247b9182d7d2cff4ee, type: 2}
-  - {fileID: 11400000, guid: 9384263afdb426341b46a0ad3711e56f, type: 2}
   skinsContainer: {fileID: 1468215055}
   skinPreviewPrefab: {fileID: 5875527004472099727, guid: 8e4947203b4c09b438f30ed82cbf6986, type: 3}
   carouselContainer: {fileID: 1154514231}

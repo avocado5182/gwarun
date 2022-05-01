@@ -1868,6 +1868,7 @@ MonoBehaviour:
   audioMixer: {fileID: 24300002, guid: 24598d0da5a742f479bc158099c03928, type: 2}
   audioClips:
   - {fileID: 8300000, guid: 484ab69cb60d9a54fa22e8ba07bca7cd, type: 3}
+  - {fileID: 8300000, guid: c0ce8a57ffb788b4181374760e4ea037, type: 3}
 --- !u!1 &997650572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2393,6 +2394,12 @@ MonoBehaviour:
   explosionParticles: {fileID: 8215863142760893766, guid: a316f2da4a78fd84497ef03bbf5482e8, type: 3}
   sfxMixer: {fileID: 24300002, guid: 316a5b8ed2e421147827d2d3f5b8a4d1, type: 2}
   explosionSFX: {fileID: 8300000, guid: 1f7f16d21a2adcf44a90611205e8258d, type: 3}
+  skins:
+  - {fileID: 11400000, guid: 68c873da40396b84194899c280fa6e9f, type: 2}
+  - {fileID: 11400000, guid: e6d06936b14f6de40b9edbe7f1d3eecd, type: 2}
+  - {fileID: 11400000, guid: 1e09de419086d7247b9182d7d2cff4ee, type: 2}
+  - {fileID: 11400000, guid: 9384263afdb426341b46a0ad3711e56f, type: 2}
+  - {fileID: 11400000, guid: 8f1acc580900ba54ab35f2ccf8d273af, type: 2}
   obstaclePrefabs:
   - {fileID: 2219418403885268840, guid: 794ec3119fd3117449cd947f82997e4c, type: 3}
   - {fileID: 172447066645782237, guid: 13e31f6d52bdcae4ca4393d22777caae, type: 3}
@@ -2468,13 +2475,13 @@ MonoBehaviour:
     size: 8
   - tag: right spikes
     prefab: {fileID: 7711542498184123444, guid: 6296166c44430c347af9275bfe794bd5, type: 3}
-    size: 10
+    size: 8
   - tag: laser
     prefab: {fileID: 1002764854475678210, guid: 21256df80d1201547b2d00f3322a0b6d, type: 3}
     size: 8
   - tag: goldcoins
     prefab: {fileID: 172447066645782237, guid: e3959e191d774074ca755dab567eb831, type: 3}
-    size: 8
+    size: 10
   - tag: movings
     prefab: {fileID: 1820428508645165894, guid: 8534201c407b11342a36e17446625018, type: 3}
     size: 8
