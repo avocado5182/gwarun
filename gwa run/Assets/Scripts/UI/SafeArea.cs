@@ -42,7 +42,7 @@ namespace Crystal
         /// <summary>
         /// Simulation mode for use in editor only. This can be edited at runtime to toggle between different safe areas.
         /// </summary>
-        public static SimDevice Sim = SimDevice.None;
+        public static SimDevice Sim = SimDevice.iPhoneX;
 
         /// <summary>
         /// Normalised safe areas for iPhone X with Home indicator (ratios are identical to Xs, 11 Pro). Absolute values:
