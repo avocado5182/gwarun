@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
     public AudioMixerGroup sfxMixer;
     public AudioClip explosionSFX;
     AudioSource audioSrc;
+    public List<gwaSkin> skins = new List<gwaSkin>();
     
     
     [Header("Obstacles")]
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour {
     public Transform obstaclesObject;
     public float obstacleDistance = 5f;
     float initObstacleDistance = 0f;
-    public int obstaclesPerGeneration = 20;
+    public int obstaclesPerGeneration = 15;
     Vector3 initObstaclePos;
     bool hasSpawnedObstacle;
     GameObject lastObstacle;
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour {
     public bool gameEnded = false;
     public bool paused = false;
     public float restartDelay = 2f;
+    float elapsed;
     
     [Header("Saving")]
     [HideInInspector]
@@ -110,19 +112,21 @@ public class GameManager : MonoBehaviour {
     }
     
     void Start() {
-        // var data = new PlayerData();
         if (SaveSystem.SaveExists(savePath) && !resetSave) {
             LoadData(savePath);
+        } else if (resetSave) {
+            data = new PlayerData();
+            SaveSystem.SaveData(data, savePath);
         }
+        
         // // if (data != new PlayerData()) {
         //     Debug.Log($"[{ string.Join(", ", data.unlockedSkins) }]");
         //     Debug.Log($"equipped: {data.equippedSkin} ({gwaSkins.List.Find(s => s.id == data.equippedSkin).skinName})");
         // // }
 
         if (!isOnMainMenu) {
-            Debug.Log(data.equippedSkin);
-            gwaSkin equippedSkin = gwaSkins.List.Find(s => s.id == data.equippedSkin);
-            Debug.Log(equippedSkin.skinName);
+            gwaSkin equippedSkin = skins.Find(s => s.id == data.equippedSkin);
+            // Debug.Log(equippedSkin.skinName);
             playerGFX.GetComponent<MeshFilter>().mesh = equippedSkin.mesh;
             playerGFX.GetComponent<MeshRenderer>().materials = equippedSkin.mats;//hope this works
             
@@ -195,7 +199,7 @@ public class GameManager : MonoBehaviour {
             timeToSave = 0;
         }
 
-        if (passedObsts >= 20) obstacleDistance = initObstacleDistance + (Time.time/ 60);
+        if (passedObsts >= obstaclesPerGeneration) obstacleDistance = initObstacleDistance + (Time.time / 60);
     }
 
     public void EndGame() {

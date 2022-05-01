@@ -60,9 +60,9 @@ public class UIManager : MonoBehaviour {
         // catch (Exception e) {
         //     savedCoins = 0;
         // }
-        Debug.Log($"{GameManager.Instance.data.coins} in gm, {savedCoins} saved");
+        // Debug.Log($"{GameManager.Instance.data.coins} in gm, {savedCoins} saved");
 
-        Debug.Log($"{GameManager.Instance.data.unlockedSkins.Length} unlocked skins");
+        // Debug.Log($"{GameManager.Instance.data.unlockedSkins.Length} unlocked skins");
         SceneManager.LoadScene(sceneIndex);
         Time.timeScale = 1f;
     }
@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour {
     public void UpdateRetryScreen(bool show) {
         // save the high score
         if (SaveSystem.SaveExists(GameManager.savePath)) {
-            Debug.Log("save exists");
+            // Debug.Log("save exists");
             GameManager.Instance.LoadData(GameManager.savePath);
             var savedData = GameManager.Instance.data;
             GameManager.Instance.data.unlockedSkins = savedData.unlockedSkins;
