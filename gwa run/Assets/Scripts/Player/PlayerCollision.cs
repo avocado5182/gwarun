@@ -14,7 +14,8 @@ public class PlayerCollision : MonoBehaviour {
             GameManager.Instance.coins++;
             
             TMP_Text coinsText = GameManager.Instance.uiManager.coinText;
-            GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "coins", GameManager.Instance.coins);
+            coinsText.text = GameManager.Instance.coins.ToString();
+            // GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "", GameManager.Instance.coins);
             other.GetComponent<MeshRenderer>().enabled = false;
         }
         if (other.CompareTag("GoldCoin")) {
@@ -22,7 +23,8 @@ public class PlayerCollision : MonoBehaviour {
             GameManager.Instance.coins += 50;
             
             TMP_Text coinsText = GameManager.Instance.uiManager.coinText;
-            GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "coins", GameManager.Instance.coins);
+            coinsText.text = GameManager.Instance.coins.ToString();
+            // GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "", GameManager.Instance.coins);
             other.GetComponent<MeshRenderer>().enabled = false;
         }
         else if (other.CompareTag("Score")) {
@@ -30,6 +32,7 @@ public class PlayerCollision : MonoBehaviour {
             GameManager.Instance.score += GameManager.Instance.scoreAmt;
             
             TMP_Text scoreText = GameManager.Instance.uiManager.scoreText;
+            // scoreText.text = GameManager.Instance.score.ToString();
             GameManager.Instance.uiManager.UpdateCurrencyText(scoreText, "score", GameManager.Instance.score);
 
             GameManager.Instance.SpawnRandomObstacle();
