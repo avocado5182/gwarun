@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Analytics;
 using TMPro;
 
 public class UIManager : MonoBehaviour {
@@ -29,6 +30,9 @@ public class UIManager : MonoBehaviour {
     
     public void LoadNextScene() {
         int index = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
+        if (index == 1) {
+            Debug.Log(Analytics.CustomEvent("StartGame"));
+        }
         LoadScene(index);
     }
 
