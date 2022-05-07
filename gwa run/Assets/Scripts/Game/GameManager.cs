@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour {
     [Header("Game State")]
     public bool gameEnded = false;
     public bool paused = false;
-    public float restartDelay = 2f;
+    // public float restartDelay = 2f;
     float elapsed;
     
     [Header("Saving")]
@@ -198,8 +198,9 @@ public class GameManager : MonoBehaviour {
             SaveSystem.SaveData(data, savePath);
             timeToSave = 0;
         }
-
-        if (passedObsts >= obstaclesPerGeneration) obstacleDistance = initObstacleDistance + (Time.time / 60);
+        
+        if (!paused) elapsed += Time.deltaTime * (1 / (Time.timeScale == 0 ? 1 : Time.timeScale));
+        if (passedObsts >= obstaclesPerGeneration && !paused) obstacleDistance = initObstacleDistance + (elapsed / 60);
     }
 
     public void EndGame() {
@@ -215,7 +216,9 @@ public class GameManager : MonoBehaviour {
         playerMovement.movementIsEnabled = false;
 
         // show retry screen
+        
         Invoke(nameof(ShowRetryScreen), particles.main.duration / particles.main.simulationSpeed);
+        // Invoke(nameof(ShowRetryScreen), restartDelay);
     }
 
     void ShowRetryScreen() {
