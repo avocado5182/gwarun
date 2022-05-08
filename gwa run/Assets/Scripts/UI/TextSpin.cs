@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class TextSpin : MonoBehaviour {
     public float spinSpeed = 5f;
+    public float rotAmt = 10f;
+    [Range(0f, 0.25f)] public float scaleAmplitude = 0.125f;
 
-    [SerializeField] float angle = 0f;
-    [SerializeField] float rotValue = 0f;
-    [SerializeField] float scaleValue = 0f;
+    float angle = 0f;
+    float rotValue = 0f;
+    float scaleValue = 0f;
     // Update is called once per frame
     void Update() {
-        rotValue = Mathf.Cos(angle) * 15f;
+        rotValue = Mathf.Cos(angle) * rotAmt;
         angle += spinSpeed * Time.deltaTime;
         angle %= 2f * Mathf.PI;
 
@@ -23,7 +25,7 @@ public class TextSpin : MonoBehaviour {
         );
         transform.rotation = rotation;
 
-        scaleValue = ((Mathf.Cos(angle * 4f) / 8f) + 0.875f) * 16.60399f;
+        scaleValue = ((Mathf.Cos(angle * 4f) * scaleAmplitude) + 0.875f) * 16.60399f;
         transform.localScale = new Vector3(
             scaleValue,
             scaleValue,

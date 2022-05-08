@@ -134,15 +134,17 @@ public class UIManager : MonoBehaviour {
         text.text = $"{currency}: {value}";
     }
 
-    public void OpengwaMenu() {
-        ShowMenuMenu(2);
-        
-        // trigger the trigger
-        gwaAnimator.SetTrigger("fadeingwa");
-    }
+    // public void OpengwaMenu() {
+    //     ShowMenuMenu(2);
+    //     
+    //     // trigger the trigger
+    //     gwaAnimator.SetTrigger("fadeingwa");
+    // }
 
     public void OpenShop() {
         ShowMenuMenu(1);
+        
+        // update coin text
         int coinAmt = 0;
         if (SaveSystem.SaveExists(GameManager.savePath)) {
             // PlayerData savedData = SaveSystem.LoadData<PlayerData>(GameManager.savePath);
@@ -152,6 +154,10 @@ public class UIManager : MonoBehaviour {
         }
 
         UpdateShopCoinText(coinAmt);
+    }
+
+    public void OpenOptions_Menu() {
+        ShowMenuMenu(2);
     }
 
     public void UpdateShopCoinText(int amount) {
