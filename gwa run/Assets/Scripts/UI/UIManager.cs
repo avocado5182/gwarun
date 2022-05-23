@@ -31,9 +31,19 @@ public class UIManager : MonoBehaviour {
     public void LoadNextScene() {
         int index = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
         if (index == 1) {
-            Debug.Log(Analytics.CustomEvent("StartGame"));
+            Debug.Log(Analytics.CustomEvent("StartGame")); 
         }
         LoadScene(index);
+    }
+
+    public void SaveAudioVolumes() {
+        // save volumes as dB value
+        BGMusic bgm = BGMusic.Instance;
+        bgm.musicMixer.audioMixer.GetFloat("Volume", out float musicVol);
+        bgm.soundMixer.audioMixer.GetFloat("Volume", out float soundVol);
+        PlayerPrefs.SetFloat("musicvol", musicVol);
+        PlayerPrefs.SetFloat("soundvol", soundVol);
+        PlayerPrefs.Save();
     }
 
     // public void ReloadMenuScene() {
@@ -56,17 +66,9 @@ public class UIManager : MonoBehaviour {
             loadedData.coins) {
             SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
         }
+        
+        SaveAudioVolumes();
 
-        // int savedCoins = 0;
-        // try {
-        //     savedCoins = SaveSystem.LoadData<PlayerData>(GameManager.savePath).coins;
-        // }
-        // catch (Exception e) {
-        //     savedCoins = 0;
-        // }
-        // Debug.Log($"{GameManager.Instance.data.coins} in gm, {savedCoins} saved");
-
-        // Debug.Log($"{GameManager.Instance.data.unlockedSkins.Length} unlocked skins");
         SceneManager.LoadScene(sceneIndex);
         Time.timeScale = 1f;
     }

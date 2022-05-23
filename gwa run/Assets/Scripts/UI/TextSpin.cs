@@ -25,7 +25,7 @@ public class TextSpin : MonoBehaviour {
         );
         transform.rotation = rotation;
 
-        scaleValue = ((Mathf.Cos(angle * 4f) * scaleAmplitude) + 0.875f) * 16.60399f;
+        scaleValue = ((Mathf.Cos(angle * 4f) * scaleAmplitude) + 0.875f);
         transform.localScale = new Vector3(
             scaleValue,
             scaleValue,

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2351101880949982549}
   - component: {fileID: 2351101880949982551}
   - component: {fileID: 8833682595473411425}
-  - component: {fileID: 6497294583894624132}
   m_Layer: 0
   m_Name: hurt
   m_TagString: Obstacle
@@ -139,16 +138,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000004, y: 2.0000005, z: 1.0000002}
   m_Center: {x: 0.00000005960466, y: 0, z: -0.00000008940697}
---- !u!114 &6497294583894624132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2351101880949982545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84e961609ca74d34f8c95614746354b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentGrp: {fileID: 0}

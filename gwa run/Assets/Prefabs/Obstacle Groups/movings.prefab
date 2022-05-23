@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc02f060f5ead84c9a5e05fc5522bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moving: 0
 --- !u!114 &-8448885807593882200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,7 +92,6 @@ GameObject:
   - component: {fileID: 1820428508963632959}
   - component: {fileID: 1820428508963632956}
   - component: {fileID: 1820428508963632957}
-  - component: {fileID: 4018719397487463635}
   m_Layer: 0
   m_Name: rod
   m_TagString: Untagged
@@ -175,18 +175,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4018719397487463635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1820428508963632947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84e961609ca74d34f8c95614746354b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &986277814553534077
 PrefabInstance:
   m_ObjectHideFlags: 0

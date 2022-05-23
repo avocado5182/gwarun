@@ -144,7 +144,7 @@ public class SaveSystem : MonoBehaviour {
         Directory.CreateDirectory(savePathBackUP);
         backUpCount++;
         if (backUpCount % 4 == 0) {
-            Debug.Log("backup save");
+            // Debug.Log("backup save");
             Save(savePathBackUP);
             Save(savePath);
         }

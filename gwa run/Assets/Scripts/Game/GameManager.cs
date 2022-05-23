@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour {
     public ParticleSystem explosionParticles;
     public AudioMixerGroup sfxMixer;
     public AudioClip explosionSFX;
-    AudioSource audioSrc;
+    public AudioSource audioSrc;
+    BGMusic bgm;
     public List<gwaSkin> skins = new List<gwaSkin>();
     
     
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour {
 
     void Awake() {
         if (Instance == null) Instance = this;
+        bgm = BGMusic.Instance;
 
         initObstacleDistance = obstacleDistance;
 
@@ -86,14 +88,14 @@ public class GameManager : MonoBehaviour {
             lastSectionPos = new Vector3(-6.83f, 2.5f, 0f);
 
             uiManager.UpdateRetryScreen(false);
-            
-            audioSrc = GetComponent<AudioSource>();
-            if (audioSrc == null) audioSrc = gameObject.AddComponent<AudioSource>();
-            audioSrc.outputAudioMixerGroup = sfxMixer;
-            audioSrc.clip = explosionSFX;
-            audioSrc.playOnAwake = false;
-            audioSrc.loop = false;
         }
+        
+        audioSrc = GetComponent<AudioSource>();
+        if (audioSrc == null) audioSrc = gameObject.AddComponent<AudioSource>();
+        audioSrc.outputAudioMixerGroup = sfxMixer;
+        audioSrc.clip = explosionSFX;
+        audioSrc.playOnAwake = false;
+        audioSrc.loop = false;
     }
 
     public void LoadData(string path) {
@@ -119,17 +121,29 @@ public class GameManager : MonoBehaviour {
             SaveSystem.SaveData(data, savePath);
         }
         
+        // load music volumes
+        float musicVol = PlayerPrefs.GetFloat("musicvol");
+        float soundVol = PlayerPrefs.GetFloat("soundvol");
+        bgm.ChangeMixerVal(bgm.musicMixer, bgm.dBToVal(musicVol, bgm.musicVolumeRange), bgm.musicVolumeRange);
+        bgm.UpdateSlider(bgm.musicSlider, musicVol, bgm.musicVolumeRange);
+        
+        bgm.ChangeMixerVal(bgm.soundMixer, bgm.dBToVal(soundVol, bgm.soundVolumeRange), bgm.soundVolumeRange);
+        bgm.UpdateSlider(bgm.soundSlider, soundVol, bgm.soundVolumeRange);
+        
+        
         // // if (data != new PlayerData()) {
         //     Debug.Log($"[{ string.Join(", ", data.unlockedSkins) }]");
         //     Debug.Log($"equipped: {data.equippedSkin} ({gwaSkins.List.Find(s => s.id == data.equippedSkin).skinName})");
         // // }
 
         if (!isOnMainMenu) {
+            // equip currently equipped skin
             gwaSkin equippedSkin = skins.Find(s => s.id == data.equippedSkin);
             // Debug.Log(equippedSkin.skinName);
             playerGFX.GetComponent<MeshFilter>().mesh = equippedSkin.mesh;
             playerGFX.GetComponent<MeshRenderer>().materials = equippedSkin.mats;//hope this works
             
+            // setup environment
             SpawnSection(0);
 
             lastSectionPos = new Vector3(
@@ -182,6 +196,8 @@ public class GameManager : MonoBehaviour {
         SaveSystem.SaveData(data, savePath);
         AsyncOperation loading = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
 
+        uiManager.SaveAudioVolumes();
+        
         while (!loading.isDone) {
             yield return null;
         }
@@ -227,6 +243,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void OnApplicationQuit() {
+        uiManager.SaveAudioVolumes();
         LoadData(savePath);
         PlayerData loadedData = data;
         if (data.coins == 0 && loadedData.coins < data.coins) {
@@ -259,8 +276,10 @@ public class GameManager : MonoBehaviour {
         if (!hasSpawnedObstacle) lastObstacle = SpawnObstacle(0, initObstaclePos);
         hasSpawnedObstacle = true;
         Vector3 lastObstaclePos = lastObstacle.transform.position;
-        
-        if (obstaclePrefabs[obstacle].name == "Coins" || obstaclePrefabs[obstacle].name == "Gold Coins") {
+
+        GameObject obstGO = obstaclePrefabs[obstacle];
+        ObstacleGroup og = obstGO.GetComponent<ObstacleGroup>();
+        if (og.randomPlacement) {
             double randomDouble = getRandom.NextDouble(); // 0 - 1 noninclusive (exclusive?)
             randomDouble *= 3;
             randomDouble -= 1.5;

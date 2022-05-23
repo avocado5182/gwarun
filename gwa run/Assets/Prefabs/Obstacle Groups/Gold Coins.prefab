@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc02f060f5ead84c9a5e05fc5522bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moving: 0
 --- !u!114 &-6042192224402045349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 6
+  randomPlacement: 1
 --- !u!1001 &3615771848454617207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118,7 +120,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -7333061358213135053, guid: ee2c671fa71d9424baf8fa169cbcecf9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ee2c671fa71d9424baf8fa169cbcecf9, type: 3}
 --- !u!4 &4982738960953525023 stripped
 Transform:
@@ -142,11 +145,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1727846727105710883, guid: 3e180bb9ffd39564aa83f991ffc448a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1727846727105710883, guid: 3e180bb9ffd39564aa83f991ffc448a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1727846727105710883, guid: 3e180bb9ffd39564aa83f991ffc448a3, type: 3}
       propertyPath: m_LocalPosition.z

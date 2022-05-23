@@ -10,6 +10,7 @@ TagManager:
   - Coin
   - Section
   - GoldCoin
+  - Star
   layers:
   - Default
   - TransparentFX

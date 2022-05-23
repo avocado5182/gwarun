@@ -6,55 +6,63 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour {
     public PlayerMovement playerMovement;
+    TMP_Text scoreText;
+    TMP_Text coinsText;
+    GameManager gm;
+
+    void Start() {
+        gm = GameManager.Instance;
+        coinsText = gm.uiManager.coinText;
+        scoreText = gm.uiManager.scoreText;
+    }
 
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Untagged") || other.CompareTag("Section")) return;
         if (other.CompareTag("Coin")) {
-            // Destroy(other.gameObject);
-            GameManager.Instance.coins++;
+            gm.coins++;
             
-            TMP_Text coinsText = GameManager.Instance.uiManager.coinText;
-            coinsText.text = GameManager.Instance.coins.ToString();
-            // GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "", GameManager.Instance.coins);
+            coinsText.text = gm.coins.ToString();
             other.GetComponent<MeshRenderer>().enabled = false;
         }
         if (other.CompareTag("GoldCoin")) {
-            // Destroy(other.gameObject);
-            GameManager.Instance.coins += 50;
+            gm.coins += 50;
+            gm.score += gm.scoreAmt;
+            gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
             
-            TMP_Text coinsText = GameManager.Instance.uiManager.coinText;
-            coinsText.text = GameManager.Instance.coins.ToString();
-            // GameManager.Instance.uiManager.UpdateCurrencyText(coinsText, "", GameManager.Instance.coins);
+            coinsText.text = gm.coins.ToString();
             other.GetComponent<MeshRenderer>().enabled = false;
         }
         else if (other.CompareTag("Score")) {
             // add one to the score
-            GameManager.Instance.score += GameManager.Instance.scoreAmt;
+            gm.score += gm.scoreAmt;
             
-            TMP_Text scoreText = GameManager.Instance.uiManager.scoreText;
-            // scoreText.text = GameManager.Instance.score.ToString();
-            GameManager.Instance.uiManager.UpdateCurrencyText(scoreText, "score", GameManager.Instance.score);
+            gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
 
-            GameManager.Instance.SpawnRandomObstacle();
-            GameManager.Instance.passedObsts++;
+            gm.SpawnRandomObstacle();
+            gm.passedObsts++;
 
             ScorePlane sp = other.GetComponent<ScorePlane>(); 
             sp.scored = true;
-            // if (sp.NoSiblings()) Destroy(other.transform.parent.gameObject);
         }
         else if (other.CompareTag("SpawnPlane")) {
             // spawn new section/base
-            GameManager.Instance.SpawnRandomSection();
+            gm.SpawnRandomSection();
         }
         else if (other.CompareTag("Obstacle")) {
             playerMovement.movementIsEnabled = false;
 
-            if (GameManager.Instance.gameEnded) return;
+            if (gm.gameEnded) return;
             
             // show retry screen
-            GameManager.Instance.EndGame();
+            gm.EndGame();
 
-            GameManager.Instance.gameEnded = true;
+            gm.gameEnded = true;
+        }
+        else if (other.CompareTag("Star")) {
+            gm.score += gm.scoreAmt * 4; // effectively 500 points, there will be a blip but shhh
+            gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
+            
+            other.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 }

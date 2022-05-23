@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc02f060f5ead84c9a5e05fc5522bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moving: 0
 --- !u!114 &-4363858635798601254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 149
+  randomPlacement: 1
 --- !u!1001 &72108567689736086
 PrefabInstance:
   m_ObjectHideFlags: 0
