@@ -10,7 +10,7 @@ TagManager:
   - Coin
   - Section
   - GoldCoin
-  - Star
+  - Powerup
   layers:
   - Default
   - TransparentFX

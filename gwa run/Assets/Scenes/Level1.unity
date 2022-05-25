@@ -2912,7 +2912,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 1
+  antialiasingMode: 0
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.25
@@ -3527,6 +3527,7 @@ MonoBehaviour:
   - {fileID: 172447066645782237, guid: e3959e191d774074ca755dab567eb831, type: 3}
   - {fileID: 1820428508645165894, guid: 8534201c407b11342a36e17446625018, type: 3}
   - {fileID: 5855203285430411687, guid: 1f01932d781a5fa49aef599f0a0ef88b, type: 3}
+  - {fileID: 5855203285430411687, guid: 461e0c4fed805a74cb110488f2761bc8, type: 3}
   obstaclesObject: {fileID: 1197736317}
   obstacleDistance: 12
   obstaclesPerGeneration: 20
@@ -3544,6 +3545,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: d3823126980dd98479f7761e6d47338a, type: 2}
   - {fileID: 2100000, guid: 6eecb3bb77b3f7a43a504fceda3b0b5f, type: 2}
   sectionsObject: {fileID: 2127948680}
+  currPowerup: {fileID: 0}
+  currEffect:
+    m_PersistentCalls:
+      m_Calls: []
   gameEnded: 0
   paused: 0
   data:
@@ -3605,6 +3610,9 @@ MonoBehaviour:
     size: 10
   - tag: gwastars
     prefab: {fileID: 5855203285430411687, guid: 1f01932d781a5fa49aef599f0a0ef88b, type: 3}
+    size: 10
+  - tag: magnets
+    prefab: {fileID: 5855203285430411687, guid: 461e0c4fed805a74cb110488f2761bc8, type: 3}
     size: 10
 --- !u!82 &1176820038
 AudioSource:
