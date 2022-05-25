@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1341474823495559116}
   - component: {fileID: 6276166034738970553}
   - component: {fileID: 7887357288405408366}
-  - component: {fileID: 363669654763086963}
   m_Layer: 0
   m_Name: BaseSpawnPlane
   m_TagString: SpawnPlane
@@ -96,16 +95,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 1, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &363669654763086963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 124922889605127986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96f925ae6048bbc42a3ee9f4d87432b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sectionNumber: 3

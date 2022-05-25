@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   minDist: 0
+  speed: 0
+  hasCollided: 0
+  hasSetPos: 0
 --- !u!1 &172447066645782237
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,6 +95,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   minDist: 0
+  speed: 0
+  hasCollided: 0
+  hasSetPos: 0
 --- !u!114 &6760695285795626507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   minDist: 0
+  speed: 0
+  hasCollided: 0
+  hasSetPos: 0
 --- !u!114 &5076387507168300169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +129,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   minDist: 0
+  speed: 0
+  hasCollided: 0
+  hasSetPos: 0
 --- !u!1001 &72108567689736086
 PrefabInstance:
   m_ObjectHideFlags: 0

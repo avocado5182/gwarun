@@ -21,6 +21,9 @@ public class Powerup : MonoBehaviour {
 
 	IEnumerator Star() {
 		Debug.Log("STAR GO BRR");
+		
+		// code here
+		
 		yield return new WaitForSeconds(duration);
 		Debug.Log("STAR DIGGITY DONE");
 		running = null;
@@ -28,7 +31,12 @@ public class Powerup : MonoBehaviour {
 
 	public IEnumerator Magnet() {
 		Debug.Log("MAGNET GO BRR");
+		GameManager.Instance.magnet = true;
+		
+		// code here
+		
 		yield return new WaitForSeconds(duration);
+		GameManager.Instance.magnet = false;
 		Debug.Log("MAGNET DIGGITY DONE");
 		running = null;
 	}

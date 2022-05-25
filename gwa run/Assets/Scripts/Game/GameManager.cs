@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour {
     public UIManager uiManager;
     [Header("Player")]
     public GameObject playerObject;
-    PlayerMovement playerMovement;
+    public PlayerMovement playerMovement;
     public GameObject playerGFX;
     public ParticleSystem explosionParticles;
     public AudioMixerGroup sfxMixer;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour {
     [Header("Powerups")] 
     public Powerup currPowerup; // check currEffect for powerup type uniqueness, this is instance 
     public UnityEvent currEffect;
+    public bool magnet;
     
     [Header("Game State")]
     public bool gameEnded = false;
@@ -291,6 +293,19 @@ public class GameManager : MonoBehaviour {
                 lastObstaclePos.y,
                 lastObstaclePos.z + obstacleDistance
             );
+
+            // reset child coin positions
+            if (obstGO.name.Contains("Coins")) { //coin/goldcoin
+                FollowMagnet[] coins = obstGO.GetComponentsInChildren<FollowMagnet>(); // to only get coin objects
+                coins[0].UpdateCoinChildren();
+                coins.ToList().ForEach(fm => {
+                    Debug.Log($"{fm.name}: {fm.hasCollided}, {fm.hasSetPos}");
+                });
+                coins.ToList().ForEach(fm => {
+                    if (fm.hasCollided) fm.hasSetPos = true;
+                    fm.hasCollided = false;
+                });
+            } 
             
             GameObject obstacleGO = SpawnObstacle(obstacle, lastObstaclePos);
             lastObstacle = obstacleGO;

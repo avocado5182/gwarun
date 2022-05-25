@@ -19,31 +19,26 @@ public class PlayerCollision : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Untagged") || other.CompareTag("Section")) return;
         if (other.CompareTag("Coin")) {
-            gm.coins++;
+            FollowMagnet fm = other.GetComponent<FollowMagnet>();
+            if (!fm.hasCollided) {
+                fm.hasCollided = true;
+                gm.coins++;
             
-            coinsText.text = gm.coins.ToString();
-            other.GetComponent<MeshRenderer>().enabled = false;
-            if (GameManager.magnet) {
-                other.transform.position = new Vector3(
-                    playerMovement.maxXValue + 2f, // otherwise the coin will stay at the player x and collide forever
-                    // (this x position is reset on regeneration)
-                    other.transform.position.y,
-                    other.transform.position.z
-                );
+                coinsText.text = gm.coins.ToString();
+                other.GetComponent<MeshRenderer>().enabled = false;
             }
         }
         if (other.CompareTag("GoldCoin")) {
-            gm.coins += 50;
-            gm.score += gm.scoreAmt;
-            gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
+            FollowMagnet fm = other.GetComponent<FollowMagnet>();
+            if (!fm.hasCollided) {
+                fm.hasCollided = true;
+                gm.coins += 50;
+                gm.score += gm.scoreAmt;
             
-            coinsText.text = gm.coins.ToString();
-            other.GetComponent<MeshRenderer>().enabled = false;
-            // other.transform.position = new Vector3(
-            //     playerMovement.maxXValue + 2f,
-            //     other.transform.position.y,
-            //     other.transform.position.z
-            // );
+                gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
+                coinsText.text = gm.coins.ToString();
+                other.GetComponent<MeshRenderer>().enabled = false;
+            }
         }
         else if (other.CompareTag("Score")) {
             ScorePlane sp = other.GetComponent<ScorePlane>();
@@ -74,15 +69,14 @@ public class PlayerCollision : MonoBehaviour {
             Powerup p = other.GetComponent<Powerup>();
             if (gm.currPowerup != null && gm.currEffect != null) {
                 if (gm.currEffect != p.onEffect) {
-                    if (p.name != "Magnet") GameManager.magnet = false;
+                    gm.magnet = p.name.Contains("Magnet");
                     gm.currPowerup.StopRunning();
                 }
             } 
             
             gm.currPowerup = p;
-            Debug.Log("wasdjfafdssssssssss");
             gm.currEffect = p.onEffect;
             p.onEffect.Invoke(); //mmmm
         }
     }
-}
+} 
