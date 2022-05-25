@@ -33,16 +33,13 @@ public class PlayerCollision : MonoBehaviour {
             other.GetComponent<MeshRenderer>().enabled = false;
         }
         else if (other.CompareTag("Score")) {
-            // add one to the score
-            gm.score += gm.scoreAmt;
+            ScorePlane sp = other.GetComponent<ScorePlane>();
+            gm.score += sp.scoreAmt;
             
             gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
 
             gm.SpawnRandomObstacle();
             gm.passedObsts++;
-
-            ScorePlane sp = other.GetComponent<ScorePlane>(); 
-            sp.scored = true;
         }
         else if (other.CompareTag("SpawnPlane")) {
             // spawn new section/base
@@ -58,11 +55,18 @@ public class PlayerCollision : MonoBehaviour {
 
             gm.gameEnded = true;
         }
-        else if (other.CompareTag("Star")) {
-            gm.score += gm.scoreAmt * 4; // effectively 500 points, there will be a blip but shhh
-            gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
-            
+        else if (other.CompareTag("Powerup")) { // tagged is the thing with the collider
             other.GetComponent<MeshRenderer>().enabled = false;
+
+            Powerup p = other.GetComponent<Powerup>();
+            if (gm.currPowerup != null && gm.currEffect != null) {
+                if (gm.currEffect != p.onEffect) gm.currPowerup.StopRunning();
+            } 
+            
+            gm.currPowerup = p;
+            Debug.Log("wasdjfafdssssssssss");
+            gm.currEffect = p.onEffect;
+            p.onEffect.Invoke(); //mmmm
         }
     }
 }

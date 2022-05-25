@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class ObstacleGroup : MonoBehaviour {
     public int weight = 5;
-    public bool randomPlacement;
+    public bool randomXPlacement;
 }

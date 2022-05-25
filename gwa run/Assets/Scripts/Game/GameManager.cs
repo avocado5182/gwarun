@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
 
@@ -49,6 +47,10 @@ public class GameManager : MonoBehaviour {
     Vector3 lastSectionPos;
     int sectionsSpawned;
     int lastBG;
+
+    [Header("Powerups")] 
+    public Powerup currPowerup; // check currEffect for powerup type uniqueness, this is instance 
+    public UnityEvent currEffect;
     
     [Header("Game State")]
     public bool gameEnded = false;
@@ -279,7 +281,7 @@ public class GameManager : MonoBehaviour {
 
         GameObject obstGO = obstaclePrefabs[obstacle];
         ObstacleGroup og = obstGO.GetComponent<ObstacleGroup>();
-        if (og.randomPlacement) {
+        if (og.randomXPlacement) {
             double randomDouble = getRandom.NextDouble(); // 0 - 1 noninclusive (exclusive?)
             randomDouble *= 3;
             randomDouble -= 1.5;

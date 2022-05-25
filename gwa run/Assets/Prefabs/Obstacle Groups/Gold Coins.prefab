@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 6
-  randomPlacement: 1
+  randomXPlacement: 1
 --- !u!1001 &3615771848454617207
 PrefabInstance:
   m_ObjectHideFlags: 0
