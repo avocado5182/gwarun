@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -6042192224402045349}
   m_Layer: 0
   m_Name: Gold Coins
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59,8 +59,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf84d9bd15b097d4683045bf7745073a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weight: 6
+  weight: 20
   randomXPlacement: 1
+--- !u!114 &7821036197121813066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3702533917090091528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fb34c2d6428574895e50fac45ba2d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  minDist: 0
 --- !u!1001 &3615771848454617207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -123,6 +137,11 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -7333061358213135053, guid: ee2c671fa71d9424baf8fa169cbcecf9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ee2c671fa71d9424baf8fa169cbcecf9, type: 3}
+--- !u!1 &3702533917090091528 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 94513666648648319, guid: ee2c671fa71d9424baf8fa169cbcecf9, type: 3}
+  m_PrefabInstance: {fileID: 3615771848454617207}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4982738960953525023 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8578218169114360680, guid: ee2c671fa71d9424baf8fa169cbcecf9, type: 3}

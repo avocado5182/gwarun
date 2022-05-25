@@ -23,6 +23,14 @@ public class PlayerCollision : MonoBehaviour {
             
             coinsText.text = gm.coins.ToString();
             other.GetComponent<MeshRenderer>().enabled = false;
+            if (GameManager.magnet) {
+                other.transform.position = new Vector3(
+                    playerMovement.maxXValue + 2f, // otherwise the coin will stay at the player x and collide forever
+                    // (this x position is reset on regeneration)
+                    other.transform.position.y,
+                    other.transform.position.z
+                );
+            }
         }
         if (other.CompareTag("GoldCoin")) {
             gm.coins += 50;
@@ -31,6 +39,11 @@ public class PlayerCollision : MonoBehaviour {
             
             coinsText.text = gm.coins.ToString();
             other.GetComponent<MeshRenderer>().enabled = false;
+            // other.transform.position = new Vector3(
+            //     playerMovement.maxXValue + 2f,
+            //     other.transform.position.y,
+            //     other.transform.position.z
+            // );
         }
         else if (other.CompareTag("Score")) {
             ScorePlane sp = other.GetComponent<ScorePlane>();
@@ -60,7 +73,10 @@ public class PlayerCollision : MonoBehaviour {
 
             Powerup p = other.GetComponent<Powerup>();
             if (gm.currPowerup != null && gm.currEffect != null) {
-                if (gm.currEffect != p.onEffect) gm.currPowerup.StopRunning();
+                if (gm.currEffect != p.onEffect) {
+                    if (p.name != "Magnet") GameManager.magnet = false;
+                    gm.currPowerup.StopRunning();
+                }
             } 
             
             gm.currPowerup = p;

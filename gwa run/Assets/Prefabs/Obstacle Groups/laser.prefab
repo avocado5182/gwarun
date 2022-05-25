@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -3184179887996773554}
   m_Layer: 0
   m_Name: laser
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 49
+  randomXPlacement: 0
 --- !u!1 &4050350596546440214
 GameObject:
   m_ObjectHideFlags: 0

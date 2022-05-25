@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 49
+  randomXPlacement: 0
 --- !u!1 &1820428508963632947
 GameObject:
   m_ObjectHideFlags: 0

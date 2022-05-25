@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -3184179887996773554}
   m_Layer: 0
   m_Name: Middle 2 Spikes
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc02f060f5ead84c9a5e05fc5522bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moving: 0
 --- !u!114 &-3184179887996773554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 99
+  randomXPlacement: 0
 --- !u!1001 &442921862778693492
 PrefabInstance:
   m_ObjectHideFlags: 0
