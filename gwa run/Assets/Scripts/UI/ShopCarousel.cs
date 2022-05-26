@@ -56,7 +56,7 @@ public class ShopCarousel : MonoBehaviour {
         RenderCarousel(currentIndex);
     }
 
-    void ReloadCarousel(int fromIndex) {
+    public void ReloadCarousel(int fromIndex) {
         InitCarousel();
         RenderCarousel(fromIndex);
     }
@@ -110,68 +110,12 @@ public class ShopCarousel : MonoBehaviour {
                 // int skinId = i;
                 int skinId = skin.id;
                 var i1 = i;
-                preview.purchaseSkinBtn.onClick.AddListener(() => {
-                    // if coins > cost:
-                    //     buy();
-                    //     equip();
-                    //     replace the button with a new button, text saying "equipped"
-                    // // else:
-                    // //     have a tooltip or something saying "you can't afford that!"
-                    // savedData = SaveSystem.LoadData<PlayerData>(GameManager.savePath); // maybe?
-                    GameManager.Instance.LoadData(GameManager.savePath);
-                    var savedData = GameManager.Instance.data;
-                    if (savedData.equippedSkin == skinId) return; // already equipped, no need for listener
-                    if (savedData.unlockedSkins.Contains(skinId)) { // unlocked, shows "equip", equip this
-                        // skin is unlocked, make it equip
-                        savedData.equippedSkin = skinId;
-                        
-                        GameManager.Instance.data = savedData;
-                        SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
-                        
-                        // update button to say equipped, update other unlocked ones to say equip
-                        int fromIndex = i1;
-                        ReloadCarousel(fromIndex);
-                        uiMgr.UpdateShopCoinText(savedData.coins);
-
-                        // Debug.Log($"equipped skin {skin.skinName}");
-                        // Debug.Log($"(skinName from skinId is {skins[skinId].skinName})");
-                    }
-                    else if (savedData.coins >= skin.cost && !savedData.unlockedSkins.Contains(skinId)) {//haven't unlocked this yet, possible to buy
-                        // buy the skin
-                        // Debug.Log($"can afford skin {skin.skinName}");
-                        if (savedData.BuySkin(skinId)) {
-                            savedData.coins -= skin.cost;
-                            // Debug.Log($"savedData.coins{savedData.coins}");
-                            
-                            // equip it
-                            // gwaSkin boughtSkin = skins[skinId];
-                            // Debug.Log($"{ boughtSkin.skinName }, { skinId }");
-                            // Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
-                            savedData.unlockedSkins = savedData.unlockedSkins.Append(skinId).ToArray();
-                            // Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
-                            savedData.equippedSkin = skinId;
-                            
-                            GameManager.Instance.data = savedData;
-                            SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
-                            
-                            ReloadCarousel(i1);
-                            
-                            preview.UpdateSkinCostText("equipped");
-                            preview.UpdateButtonColor(Color.green);
-                            
-                            uiMgr.UpdateShopCoinText(savedData.coins);
-                            
-                            Debug.Log($"bought skin {skin.skinName}");
-
-                            // // these lines are only for debugging loading
-                            // PlayerData loaded = SaveSystem.LoadData<PlayerData>(GameManager.savePath);
-                            // Debug.Log($"[{ string.Join(", ", loaded.unlockedSkins) }]");
-                            
-                            
-                            // Debug.Log($"[{ string.Join(", ", savedData.unlockedSkins) }]");
-                        }
-                    }
-                });
+                SkinPreviewPurchaseButton btn = preview.purchaseSkinBtn.GetComponent<SkinPreviewPurchaseButton>();
+                btn.i = i1;
+                btn.previewSkinId = skinId;
+                btn.skin = skin;
+                btn.sc = this;
+                btn.preview = preview;
             }
             else {
                 preview.UpdateSkinCostText(skin.cost);
