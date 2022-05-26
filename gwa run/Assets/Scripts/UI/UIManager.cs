@@ -21,7 +21,13 @@ public class UIManager : MonoBehaviour {
     public TMP_Text highScoreText;
     public TMP_Text coinText; // in-game
     public TMP_Text gameOverText;
+    public Transform powerupIconContainer;
+    public GameObject powerupIconPrefab;
     public TMP_Text coinAmtText;
+    public TMP_Text coinTxtPrefab; // +50 whenever gold coin collected
+    public Transform coinTxtContainer;
+    
+    [Header("Main Menu objects")]
     public TMP_Text shopCoinText; // in the shop
     public GameObject menugwaModel;
 
@@ -45,15 +51,6 @@ public class UIManager : MonoBehaviour {
         PlayerPrefs.SetFloat("soundvol", soundVol);
         PlayerPrefs.Save();
     }
-
-    // public void ReloadMenuScene() {
-    //     // assuming this is on the menu but ykw we'll check
-    //     
-    //     // if (SceneManager.GetActiveScene().buildIndex == 0) {
-    //     //     mainMenu.blocksRaycasts = true;
-    //     // }
-    //     LoadScene(0);
-    // }
 
     public void GoToMenuScene() {
         LoadScene(0);
@@ -189,10 +186,30 @@ public class UIManager : MonoBehaviour {
         UpdateMenu(menu, false);
     }
 
-    public static void BuySkin(int skinIndex) {
-        
+    public IEnumerator MakeCoinText(Vector3 pos, int coins, Transform parent) {
+        TMP_Text txt = Instantiate(coinTxtPrefab, parent);
+        txt.transform.localPosition = pos;
+        txt.transform.rotation = Quaternion.identity;
+        txt.text = $"+{coins}";
+        float t = 0;
+        float txtSpeed = 1f;
+        float time = 1f;
+        float tMult = 2f;
+        while (t < time) {
+            // Vector3 txtPos = txt.rectTransform.localPosition;
+            // txt.rectTransform.localPosition = new Vector3(
+            //     txtPos.x,
+            //     txtPos.y + (Time.deltaTime * txtSpeed / time),
+            //     txtPos.z
+            // );
+            txt.color = new Color(txt.color.r, txt.color.g, txt.color.b, time - (t * tMult));
+            t += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        Destroy(txt.gameObject);
     }
-    
+
     public void QuitGame() {
         Application.Quit();
     }
