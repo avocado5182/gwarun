@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "R58N50HJ32J",
         "name": "com.PearStudios.gwarun",
-        "processId": 22090,
+        "processId": 11307,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -36,6 +36,12 @@
             "deviceId": "R58N50HJ32J",
             "name": "com.PearStudios.gwarun",
             "processId": 22090,
+            "exited": false
+        },
+        {
+            "deviceId": "R58N50HJ32J",
+            "name": "com.PearStudios.gwarun",
+            "processId": 11307,
             "exited": false
         }
     ],
