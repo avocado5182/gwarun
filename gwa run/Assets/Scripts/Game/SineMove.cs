@@ -9,31 +9,26 @@ public class SineMove : MonoBehaviour {
 	public float init;
 	public Axis axis;
 	float v;
-
+	float initSpeed;
+	
 	void Start() {
-		switch (axis) {
-			case Axis.X:
-				init = transform.position.x; 
-				break;
-			case Axis.Y:
-				init = transform.position.y; 
-				break;
-			case Axis.Z:
-				init = transform.position.z; 
-				break;
-		}
+		initSpeed = speed;
 	}
 
 	// Update is called once per frame
 	void Update() {
 		if (speed == 0) return;
+		speed = initSpeed * 
+		        ((GameManager.Instance.isTimeSlow) ? 
+			        PlayerMovement.Instance.slowSpeed : 
+			        1);
 		Vector3 pos = transform.position;
 		transform.position = new Vector3(
 			(axis == Axis.X) ? CurrentPosition() : pos.x,			
 			(axis == Axis.Y) ? CurrentPosition() : pos.y,			
 			(axis == Axis.Z) ? CurrentPosition() : pos.z	
 		);
-
+		
 		v += speed * Time.deltaTime;
 		// v %= Mathf.Abs(range.x) + Mathf.Abs(range.y);
 		v %= 2 * Mathf.PI;

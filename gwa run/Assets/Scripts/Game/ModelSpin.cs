@@ -12,10 +12,19 @@ public enum Axis {
 public class ModelSpin : MonoBehaviour {
     public float speed;
     public Axis axis;
+    float initSpeed;
     
+    void Start() {
+        initSpeed = speed;
+    }
+
     // Update is called once per frame
     void Update() {
         if (speed == 0) return;
+        speed = initSpeed * 
+                ((GameManager.Instance.isTimeSlow) ? 
+                    PlayerMovement.Instance.slowSpeed : 
+                    1);
         switch (axis) {
             case Axis.X:
                 transform.Rotate(Vector3.left, speed * Time.deltaTime);

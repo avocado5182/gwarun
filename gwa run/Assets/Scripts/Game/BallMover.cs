@@ -8,9 +8,19 @@ public class BallMover : MonoBehaviour {
     public List<GameObject> balls;
     public float speed;
     float t;
+    float initSpeed;
+
+    void Start() {
+        initSpeed = speed;
+    }
 
     // Update is called once per frame
     void Update() {
+        if (speed == 0) return;
+        speed = initSpeed /
+                ((GameManager.Instance.isTimeSlow) ? 
+                    PlayerMovement.Instance.slowSpeed : 
+                    1);
         if (balls.All(ball => ball != null)) {
             for (int i = 0; i < balls.Count; i++) {
                 GameObject ball = balls[i];
