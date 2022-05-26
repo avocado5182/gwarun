@@ -26,10 +26,13 @@ public class UIManager : MonoBehaviour {
     public TMP_Text coinAmtText;
     public TMP_Text coinTxtPrefab; // +50 whenever gold coin collected
     public Transform coinTxtContainer;
+    public Button doubleCoinsBtn;
     
     [Header("Main Menu objects")]
     public TMP_Text shopCoinText; // in the shop
+    public ShopBannerAds shopAds;
     public GameObject menugwaModel;
+    public RectTransform shopSafezone;
 
     [Header("Game Over Messages")] 
     public List<string> gameOverMsgs;
@@ -86,40 +89,45 @@ public class UIManager : MonoBehaviour {
         UpdateRetryScreen(true);
     }
     public void UpdateRetryScreen(bool show) {
+        GameManager gm = GameManager.Instance;
+        
         // save the high score
         if (SaveSystem.SaveExists(GameManager.savePath)) {
             // Debug.Log("save exists");
-            GameManager.Instance.LoadData(GameManager.savePath);
-            var savedData = GameManager.Instance.data;
-            GameManager.Instance.data.unlockedSkins = savedData.unlockedSkins;
-            GameManager.Instance.data.equippedSkin = savedData.equippedSkin;
+            gm.LoadData(GameManager.savePath);
+            var savedData = gm.data;
+            gm.data.unlockedSkins = savedData.unlockedSkins;
+            gm.data.equippedSkin = savedData.equippedSkin;
             // Debug.Log(gameMgr.data.highScore);
             // Debug.Log(gameMgr.score);
-            bool newHigh = (GameManager.Instance.score > savedData.highScore);
-            GameManager.Instance.data.highScore = newHigh ? GameManager.Instance.score : savedData.highScore;
+            bool newHigh = (gm.score > savedData.highScore);
+            gm.data.highScore = newHigh ? gm.score : savedData.highScore;
             highScoreText.text =
-                $"{(newHigh ? "new " : "")}high score: {(newHigh ? $"{GameManager.Instance.score.ToString()}!!!!" : $"{savedData.highScore.ToString()}\nscore: {GameManager.Instance.score}")}";
+                $"{(newHigh ? "new " : "")}high score: {(newHigh ? $"{gm.score.ToString()}!!!!" : $"{savedData.highScore.ToString()}\nscore: {gm.score}")}";
             // Debug.Log(gameMgr.data.highScore);
             
-            int totalCoins = savedData.coins + GameManager.Instance.coins;
-            GameManager.Instance.data.coins = totalCoins;
+            int totalCoins = savedData.coins + gm.coins;
+            gm.data.coins = totalCoins;
         }
         else {
             Debug.Log("save doesn't exist");
             // save high score
-            if (GameManager.Instance.score > 0) {
-                highScoreText.text = $"new high score: {GameManager.Instance.score}!!!!";
-                GameManager.Instance.data.highScore = GameManager.Instance.score;
+            if (gm.score > 0) {
+                highScoreText.text = $"new high score: {gm.score}!!!!";
+                gm.data.highScore = gm.score;
             }
                 
             // save coins
-            GameManager.Instance.data.coins = GameManager.Instance.coins;
+            gm.data.coins = gm.coins;
         }
+
+        bool interactable = doubleCoinsBtn.interactable;
+        doubleCoinsBtn.interactable = interactable && gm.coins > 0;
         
         // UpdateCurrencyText(coinAmtText, "coins", gameMgr.data.coins);
-        coinAmtText.text = $"{(GameManager.Instance.coins > 0 ? $"coins collected: {GameManager.Instance.coins}\n" : "")} total coins: {GameManager.Instance.data.coins}";
+        coinAmtText.text = $"{(gm.coins > 0 ? $"coins collected: {gm.coins}\n" : "")} total coins: {gm.data.coins}";
         
-        SaveSystem.SaveData(GameManager.Instance.data, GameManager.savePath);
+        SaveSystem.SaveData(gm.data, GameManager.savePath);
         // Debug.Log(SaveSystem.LoadData<PlayerData>(gameMgr.savePath).highScore);
         // Debug.Log(gameMgr.data.highScore);
         
@@ -153,6 +161,10 @@ public class UIManager : MonoBehaviour {
         }
 
         UpdateShopCoinText(coinAmt);
+        
+        // show banner ad
+        shopAds.LoadBanner();
+        shopAds.ShowBannerAd();
     }
 
     public void OpenOptions_Menu() {
@@ -178,6 +190,8 @@ public class UIManager : MonoBehaviour {
             UpdateMenu(menu, isMenuToShow);
             menugwaModel.SetActive(index == 0);
         }
+
+        if (index != 1) shopAds.HideBannerAd();
     }
     
     public void HideMenuMenu(int index) {
