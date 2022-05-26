@@ -61,10 +61,9 @@ public class DoubleCoinsAdButton : MonoBehaviour, IUnityAdsListener {
                     // then we can double (note that ui has already been showed and values have updated)
                     gm.data.coins += gm.coins;
                     gm.coins *= 2;
-                    gm.uiManager.coinAmtText.text = $"coins collected: {gm.coins}\n total coins: {gm.data.coins}";
+                    gm.uiManager.coinAmtText.text = $"coins collected: {gm.coins / 2} x 2 = {gm.coins}\n total coins: {gm.data.coins}";
                 }
                 SaveSystem.SaveData(gm.data, GameManager.savePath);
-                Debug.Log(SaveSystem.LoadData<PlayerData>(GameManager.savePath).coins);
             }
         } else if (showResult == ShowResult.Skipped) {
             // Do not reward the user for skipping the ad.
