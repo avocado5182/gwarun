@@ -46,9 +46,9 @@ public class ObjectPool : MonoBehaviour {
 
         objToSpawn.SetActive(true);
         objToSpawn.GetComponent<MovingObject>().moving = true;
-        if (poolTag == "coins" || poolTag == "goldcoins") {
+        if (objToSpawn.GetComponent<ObstacleGroup>().pickupable) {
             objToSpawn.GetComponentsInChildren<MeshRenderer>()
-                .Where(mr => mr.name == "coin" || mr.name == "goldcoin").ToList()
+                .Where(mr => !mr.CompareTag("Score")).ToList()
                 .ForEach(mr => mr.enabled = true);
         }
         objToSpawn.transform.position = pos;
