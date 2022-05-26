@@ -17,6 +17,7 @@ public class DoubleCoinsAdButton : MonoBehaviour, IUnityAdsListener {
 
     Button btn;
     public bool hasCompleted;
+    public bool testMode;
 
     void Start () {   
         btn = GetComponent <Button> ();
@@ -29,7 +30,7 @@ public class DoubleCoinsAdButton : MonoBehaviour, IUnityAdsListener {
 
         // Initialize the Ads listener and service:
         Advertisement.AddListener (this);
-        Advertisement.Initialize (gameId, true);
+        Advertisement.Initialize (gameId, testMode);
     }
 
     // Implement a function for showing a rewarded video ad:

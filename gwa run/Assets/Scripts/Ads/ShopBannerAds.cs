@@ -14,9 +14,11 @@ public class ShopBannerAds : MonoBehaviour {
         public string baPlacementId = "Banner_Android";
     #endif
 
-    public BannerPosition bp = BannerPosition.BOTTOM_CENTER; 
+    public BannerPosition bp = BannerPosition.BOTTOM_CENTER;
+    public bool testMode;
 
     void Start () {
+        Advertisement.Initialize(gameId, testMode);
         Advertisement.Banner.SetPosition(bp);
     }
 
