@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour {
     public PlayerMovement playerMovement;
@@ -19,26 +20,24 @@ public class PlayerCollision : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Untagged") || other.CompareTag("Section")) return;
         if (other.CompareTag("Coin")) {
-            FollowMagnet fm = other.GetComponent<FollowMagnet>();
-            if (!fm.hasCollided) {
-                fm.hasCollided = true;
-                gm.coins++;
-            
-                coinsText.text = gm.coins.ToString();
-                other.GetComponent<MeshRenderer>().enabled = false;
-            }
+            gm.coins++;
+        
+            coinsText.text = gm.coins.ToString();
+            other.GetComponent<MeshRenderer>().enabled = false;
         }
         if (other.CompareTag("GoldCoin")) {
-            FollowMagnet fm = other.GetComponent<FollowMagnet>();
-            if (!fm.hasCollided) {
-                fm.hasCollided = true;
-                gm.coins += 50;
-                gm.score += gm.scoreAmt;
+            gm.coins += 50;
+            gm.score += gm.scoreAmt;
+        
+            gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
+            coinsText.text = gm.coins.ToString();
+
+            StartCoroutine(gm.uiManager.MakeCoinText(
+                new Vector3(90, -65, 0),
+                50,
+                gm.uiManager.coinTxtContainer));
             
-                gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
-                coinsText.text = gm.coins.ToString();
-                other.GetComponent<MeshRenderer>().enabled = false;
-            }
+            other.GetComponent<MeshRenderer>().enabled = false;
         }
         else if (other.CompareTag("Score")) {
             ScorePlane sp = other.GetComponent<ScorePlane>();
@@ -54,14 +53,26 @@ public class PlayerCollision : MonoBehaviour {
             gm.SpawnRandomSection();
         }
         else if (other.CompareTag("Obstacle")) {
-            playerMovement.movementIsEnabled = false;
+            if (!gm.isStarActive) {
+                playerMovement.movementIsEnabled = false;
 
-            if (gm.gameEnded) return;
+                if (gm.gameEnded) return;
             
-            // show retry screen
-            gm.EndGame();
+                // show retry screen
+                gm.EndGame();
 
-            gm.gameEnded = true;
+                gm.gameEnded = true;
+            }
+            else {
+                Transform parent = other.transform.parent;
+                ScorePlane sp = parent.GetComponentInChildren<ScorePlane>();
+                gm.score += sp.scoreAmt;
+            
+                gm.uiManager.UpdateCurrencyText(scoreText, "score", gm.score);
+
+                gm.SpawnRandomObstacle();
+                gm.passedObsts++;
+            }
         }
         else if (other.CompareTag("Powerup")) { // tagged is the thing with the collider
             other.GetComponent<MeshRenderer>().enabled = false;
@@ -69,13 +80,34 @@ public class PlayerCollision : MonoBehaviour {
             Powerup p = other.GetComponent<Powerup>();
             if (gm.currPowerup != null && gm.currEffect != null) {
                 if (gm.currEffect != p.onEffect) {
-                    gm.magnet = p.name.Contains("Magnet");
+                    Powerup currPowerup = gm.currPowerup;
+                    if (currPowerup.name == "Potion") gm.isTimeSlow = false;
+                    if (currPowerup.name == "Star") gm.isStarActive = false;
+                    
+                    // destantiate powerup icon
+                    Predicate<GameObject> match = go => go.name.Contains(currPowerup.name);
+                    gm.powerupIcons.RemoveAll(match);
+                    foreach (Transform child in gm.uiManager.powerupIconContainer)
+                        if (match.Invoke(child.gameObject)) Destroy(child.gameObject);
+                    
                     gm.currPowerup.StopRunning();
                 }
-            } 
-            
+            }
+
             gm.currPowerup = p;
             gm.currEffect = p.onEffect;
+            gm.powerupTimeLeft = p.duration;
+            
+            // instantiate powerup icon
+            GameObject powerupGO = Instantiate(gm.uiManager.powerupIconPrefab);
+            powerupGO.transform.SetParent(gm.uiManager.powerupIconContainer, false);
+            Canvas.ForceUpdateCanvases();
+            gm.powerupIcons.Add(powerupGO);
+            Image img = powerupGO.GetComponent<Image>();
+            img.sprite = p.effectIcon;
+            powerupGO.name = p.name;
+            gm.hasSetTime = true;
+            
             p.onEffect.Invoke(); //mmmm
         }
     }

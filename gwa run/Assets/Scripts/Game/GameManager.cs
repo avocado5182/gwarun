@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = System.Random;
 
 public class GameManager : MonoBehaviour {
@@ -52,7 +54,10 @@ public class GameManager : MonoBehaviour {
     [Header("Powerups")] 
     public Powerup currPowerup; // check currEffect for powerup type uniqueness, this is instance 
     public UnityEvent currEffect;
-    public bool magnet;
+    public float powerupTimeLeft;
+    public bool isPowerupActive;
+    public bool isTimeSlow;
+    public bool isStarActive;
     
     [Header("Game State")]
     public bool gameEnded = false;
@@ -63,8 +68,7 @@ public class GameManager : MonoBehaviour {
     [Header("Saving")]
     [HideInInspector]
     public PlayerData data;
-    [HideInInspector]
-    public static string savePath = "gwarun";
+    [HideInInspector] public static string savePath = "gwarun";
 
     float timeToSave;
     [SerializeField] bool resetSave; 
@@ -208,7 +212,10 @@ public class GameManager : MonoBehaviour {
         
         Debug.Log("reloading scene done!");
     }
-    
+
+    [HideInInspector] public bool hasSetTime;
+    [HideInInspector] public bool hasRemovedIcon;
+    [HideInInspector] public List<GameObject> powerupIcons = new List<GameObject>();
     void Update() {
         if (isOnMainMenu) return;
         if (gameEnded) return;
@@ -219,8 +226,64 @@ public class GameManager : MonoBehaviour {
             timeToSave = 0;
         }
         
-        if (!paused) elapsed += Time.deltaTime * (1 / (Time.timeScale == 0 ? 1 : Time.timeScale));
-        if (passedObsts >= obstaclesPerGeneration && !paused) obstacleDistance = initObstacleDistance + (elapsed / 60);
+        if (passedObsts >= obstaclesPerGeneration && !paused) {
+            obstacleDistance = initObstacleDistance + (elapsed / 60);
+            elapsed += Time.deltaTime * (1 / (Time.timeScale == 0 ? 1 : Time.timeScale));
+        }
+
+        if (isPowerupActive) {
+            if (!hasSetTime) {
+                hasSetTime = true;
+                powerupTimeLeft = currPowerup.duration;
+                
+                // instantiate powerup icon
+                GameObject powerupGO = Instantiate(uiManager.powerupIconPrefab);
+                powerupGO.transform.SetParent(uiManager.powerupIconContainer, false);
+                Canvas.ForceUpdateCanvases();
+                powerupIcons.Add(powerupGO);
+                Image img = powerupGO.GetComponent<Image>();
+                img.sprite = currPowerup.effectIcon;
+                powerupGO.name = currPowerup.name;
+            }
+            else {
+                powerupTimeLeft -= Time.deltaTime;
+                hasRemovedIcon = false;
+            }
+        }
+        else {
+            hasSetTime = false;
+            if (!hasRemovedIcon) {
+                hasRemovedIcon = true;
+
+                StartCoroutine(DestantiatePowerupIcon());
+            }
+        }
+    }
+
+    public IEnumerator DestantiatePowerupIcon() {
+        Predicate<GameObject> match = go => go.name.Contains(currPowerup.name);
+        
+        foreach (Transform child in uiManager.powerupIconContainer)
+            if (match.Invoke(child.gameObject)) {
+                float t = 0;
+                float time = 1f;
+                float tMult = 5f;
+                Image img = child.GetComponent<Image>();
+                while (t < time) {
+                    img.color = new Color(
+                        img.color.r,
+                        img.color.g,
+                        img.color.b, 
+                        time - (t * tMult));
+                    t += Time.deltaTime;
+                    yield return new WaitForSeconds(Time.deltaTime);
+                }
+            }
+        
+                
+        powerupIcons.RemoveAll(match);
+        foreach (Transform child in uiManager.powerupIconContainer)
+            if (match.Invoke(child.gameObject)) Destroy(child.gameObject);
     }
 
     public void EndGame() {
@@ -264,7 +327,11 @@ public class GameManager : MonoBehaviour {
     }
 
     int lastRandomObstacle = 0;
+    // float lastSpawned;
     public void SpawnRandomObstacle() {
+        // Debug.Log($"time diff: {Time.time - lastSpawned}");
+        // lastSpawned = Time.time;
+
         int obstacle = lastRandomObstacle;
 
         while (obstacle == lastRandomObstacle) {
@@ -276,10 +343,11 @@ public class GameManager : MonoBehaviour {
 
         SpawnObstacle(obstacle);
     }
+
     public void SpawnObstacle(int obstacle) {
         if (!hasSpawnedObstacle) lastObstacle = SpawnObstacle(0, initObstaclePos);
         hasSpawnedObstacle = true;
-        Vector3 lastObstaclePos = lastObstacle.transform.position;
+        Vector3 lastObstaclePos = lastObstacle.transform.localPosition;
 
         GameObject obstGO = obstaclePrefabs[obstacle];
         ObstacleGroup og = obstGO.GetComponent<ObstacleGroup>();
@@ -290,22 +358,9 @@ public class GameManager : MonoBehaviour {
             float randomX = (float) randomDouble; // now -1.5 - 1.5 noninclusive
             lastObstaclePos = new Vector3(
                 randomX,
-                lastObstaclePos.y,
+                0.5f, // lastObstaclePos.y,
                 lastObstaclePos.z + obstacleDistance
             );
-
-            // reset child coin positions
-            if (obstGO.name.Contains("Coins")) { //coin/goldcoin
-                FollowMagnet[] coins = obstGO.GetComponentsInChildren<FollowMagnet>(); // to only get coin objects
-                coins[0].UpdateCoinChildren();
-                coins.ToList().ForEach(fm => {
-                    Debug.Log($"{fm.name}: {fm.hasCollided}, {fm.hasSetPos}");
-                });
-                coins.ToList().ForEach(fm => {
-                    if (fm.hasCollided) fm.hasSetPos = true;
-                    fm.hasCollided = false;
-                });
-            } 
             
             GameObject obstacleGO = SpawnObstacle(obstacle, lastObstaclePos);
             lastObstacle = obstacleGO;
@@ -314,7 +369,7 @@ public class GameManager : MonoBehaviour {
             lastObstaclePos = new Vector3(
                 // lastObstaclePos.x,
                 -2f,
-                lastObstaclePos.y,
+                0.5f, // lastObstaclePos.y,
                 lastObstaclePos.z + obstacleDistance
             );
             
@@ -354,10 +409,10 @@ public class GameManager : MonoBehaviour {
         GameObject newSection = Instantiate(
             sectionPrefabs[section], 
             spawnPos, 
-            Quaternion.identity
+            Quaternion.identity, 
+            sectionsObject
         );
         
-        newSection.transform.parent = sectionsObject;
         sectionsSpawned++;
         return newSection;
     }
