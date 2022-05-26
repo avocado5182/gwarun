@@ -26,11 +26,12 @@ public class MovingObject : MonoBehaviour {
     void FixedUpdate() {
         if (!playerMvmt || !playerMvmt.movementIsEnabled || !moving) return;
         Vector3 pos = transform.position;
+        float speed = playerMvmt.forwardSpeed * ((GameManager.Instance.isTimeSlow) ? playerMvmt.slowSpeed : 1);
         
         Vector3 newPos = new Vector3(
             pos.x,
             pos.y,
-            pos.z - playerMvmt.forwardSpeed * Time.fixedDeltaTime * Time.fixedDeltaTime
+            pos.z - speed * Time.fixedDeltaTime * Time.fixedDeltaTime
         );
         
         transform.position = newPos;
