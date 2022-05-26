@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
+    public static PlayerMovement Instance;
     [HideInInspector] public bool movementIsEnabled = true;
     public Rigidbody rb;
     public Transform playerGFX;
@@ -21,6 +22,11 @@ public class PlayerMovement : MonoBehaviour {
 
     bool inpDown;
     float mx;
+    public float slowSpeed = 0.5f;
+
+    void Awake() {
+        if (Instance == null) Instance = this;
+    }
     
     // Start is called before the first frame update
     void Start() {
