@@ -1,14 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using Random = UnityEngine.Random;
-using UnityEditor;
-using UnityEngine.Serialization;
 
 public class ShopCarousel : MonoBehaviour {
     public UIManager uiMgr;
@@ -62,25 +54,21 @@ public class ShopCarousel : MonoBehaviour {
     }
     
     void InitCarousel() {
-        if (skinsContainer.childCount != 0) {
-            // delete all (now old) previews to reload
-            foreach (Transform preview in skinsContainer.transform) {
-                Destroy(preview.gameObject);
-            }
-        }
-        
+        // delete all (now old) previews to reload
+        if (skinsContainer.childCount != 0)
+            foreach (Transform preview in skinsContainer.transform) Destroy(preview.gameObject);
+
         for (int i = 0; i < skins.Count; i++) {
             gwaSkin skin = skins[i];
-            // float previewXPos = (i * previewWidth) + (skinDistance * i);
-            float previewXPos = i * (previewWidth + skinDistance);
+            // // float previewXPos = (i * previewWidth) + (skinDistance * i);
+            // float previewXPos = i * (previewWidth + skinDistance);
             
             GameObject skinPreview = Instantiate(skinPreviewPrefab, new Vector3(), Quaternion.identity);
             skinPreview.name = $"Skin Preview for {skin.skinName}";
-            skinPreview.transform.SetParent(skinsContainer, true);
-            
             RectTransform rectTransform = skinPreview.GetComponent<RectTransform>();
-            rectTransform.anchoredPosition = new Vector2(previewXPos, 0f);
-            rectTransform.localScale = new Vector3(0.5f, 0.5f, 1f);
+            rectTransform.SetParent(skinsContainer, false);
+
+            rectTransform.localScale = Vector3.one;
             
             // update skin preview fields(?)(i.e. name text, preview texture, etc)
             SkinPreview preview = skinPreview.GetComponent<SkinPreview>();
@@ -104,9 +92,7 @@ public class ShopCarousel : MonoBehaviour {
                         ? ((isEquipped) ? Color.green : Color.blue)
                         : Color.red
                 );
-                
-                // add onclick event
-                
+
                 // int skinId = i;
                 int skinId = skin.id;
                 var i1 = i;
@@ -117,16 +103,7 @@ public class ShopCarousel : MonoBehaviour {
                 btn.sc = this;
                 btn.preview = preview;
             }
-            else {
-                preview.UpdateSkinCostText(skin.cost);
-                
-                // add onclick event
-                // actually there's no need, coins = 0 so you can't buy any skins
-                // if default unlocked skins change, come back here
-                //     do stuff with equipping then
-            }
-            
-            
+            else preview.UpdateSkinCostText(skin.cost);
 
             preview.UpdateSkinPreviewTexture(skin.shopPreview);
         }
@@ -171,7 +148,6 @@ public class ShopCarousel : MonoBehaviour {
     }
     
     void RenderCarousel(int indexToRender) {
-
         for (int i = 0; i < skins.Count; i++) {
             // relative to the indexToRender!!!!
             // the above i is for positioning
@@ -186,7 +162,7 @@ public class ShopCarousel : MonoBehaviour {
             for (int j = 0; j < objTransforms.Count; j++) {
                 RectTransform objTransform = objTransforms[j];
                 float newXPos = (j + relativeIndex + 1) % (objTransforms.Count) * (previewWidth + skinDistance);
-                objTransform.anchoredPosition = new Vector2(newXPos, 0);
+                objTransform.localPosition = new Vector3(newXPos, 0, 0);
             }
         }
     }

@@ -6,6 +6,7 @@ public class SkinPreview : MonoBehaviour {
     public TMP_Text skinNameText;
     public Button purchaseSkinBtn;
     public TMP_Text skinCostText;
+    public Image skinImage;
     
     public void SetPreviewPosition(int index, int distance) {
         Vector3 newPos = new Vector3(index * distance, 0, 0);
@@ -35,8 +36,9 @@ public class SkinPreview : MonoBehaviour {
         );
         previewSprite.name = "Shop Carousel Preview";
         
-        Image skinPreview = gameObject.GetComponent<Image>();
-        skinPreview.sprite = previewSprite;
+        // Image skinPreview = gameObject.GetComponent<Image>();
+        // skinPreview.sprite = previewSprite;
+        skinImage.sprite = previewSprite;
     }
 
     public void UpdateSkinCostText(int cost) {
